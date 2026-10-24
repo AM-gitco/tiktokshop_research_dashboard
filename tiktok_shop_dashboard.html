@@ -1049,27 +1049,76 @@
     /* ==========================================================================
        Cards View Styling
        ========================================================================== */
+    .cards-view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 10px 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cards-view-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    .cards-view-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .cards-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 480px) {
+      .cards-layout {
+        grid-template-columns: 1fr;
+      }
     }
 
     .prod-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 18px;
       box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       position: relative;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+      outline: none;
     }
 
     .prod-card:hover {
       box-shadow: var(--shadow-md);
       border-color: var(--border-focus);
+      transform: translateY(-2px);
+    }
+
+    .prod-card:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
+    }
+
+    .prod-card.is-expanded {
+      border-color: var(--accent);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+      transform: none;
     }
 
     .prod-card-top {
@@ -1080,10 +1129,15 @@
     }
 
     .prod-card-title h3 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       line-height: 1.3;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
+      color: var(--text-main);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .prod-card-meta {
@@ -1096,35 +1150,182 @@
     .metric-hero-box {
       background: var(--bg-subtle);
       border-radius: 12px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
       border: 1px solid var(--border);
     }
 
     .metric-hero-item span {
       display: block;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      margin-bottom: 3px;
     }
 
     .metric-hero-item b {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 800;
+    }
+
+    /* Expand / Collapse Cue Bar */
+    .card-expand-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      background: var(--bg-subtle);
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      transition: all 0.2s ease;
+      margin-top: 2px;
+    }
+
+    .prod-card:hover .card-expand-bar {
+      background: var(--bg-surface);
+      color: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    .card-expand-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, 0.12);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease;
+      color: var(--text-muted);
+    }
+
+    .prod-card.is-expanded .card-expand-icon {
+      transform: rotate(180deg);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .card-expand-text-expanded {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      color: var(--accent-light);
+    }
+
+    .card-expand-text-collapsed {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .prod-card.is-expanded .card-expand-text-collapsed {
+      display: none;
+    }
+
+    .prod-card.is-expanded .card-expand-text-expanded {
+      display: inline-flex;
+    }
+
+    /* Full Detail Expanded Content */
+    .prod-card-expanded-content {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+      margin-top: 2px;
+      cursor: default;
+    }
+
+    .prod-card.is-expanded .prod-card-expanded-content {
+      display: flex;
+      animation: cardSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cardSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-econ-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: var(--bg-subtle);
+      border-radius: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    @media (max-width: 480px) {
+      .card-econ-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .card-econ-strip-item span {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 2px;
+    }
+
+    .card-econ-strip-item b {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .card-cost-breakdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: rgba(148, 163, 184, 0.06);
+      border-radius: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-subtle);
+      font-size: 11.5px;
+    }
+
+    @media (max-width: 480px) {
+      .card-cost-breakdown {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .card-cost-breakdown div span {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .card-cost-breakdown div b {
+      font-size: 12.5px;
     }
 
     /* Profit Split Bar */
     .waterfall-bar {
-      height: 10px;
+      height: 9px;
       border-radius: 6px;
       overflow: hidden;
       display: flex;
       background: var(--border);
-      margin: 8px 0;
+      margin: 6px 0;
     }
 
     .waterfall-bar span {
@@ -1134,7 +1335,7 @@
     .waterfall-legend {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px 12px;
       font-size: 11px;
       color: var(--text-muted);
     }
@@ -1154,16 +1355,23 @@
     .card-footer-details {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 8px;
       font-size: 12px;
-      border-top: 1px solid var(--border);
-      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .card-footer-details {
+        grid-template-columns: 1fr;
+      }
     }
 
     .card-footer-details div span {
       display: block;
       color: var(--text-faint);
-      font-size: 11px;
+      font-size: 10.5px;
+      margin-bottom: 2px;
     }
 
     .card-footer-details div b {
@@ -1174,10 +1382,12 @@
     .card-bottom-actions {
       display: flex;
       justify-content: flex-end;
-      gap: 8px;
-      border-top: 1px solid var(--border);
-      padding-top: 14px;
-      margin-top: auto;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 12px;
+      margin-top: 2px;
     }
 
     /* ==========================================================================
@@ -1902,6 +2112,22 @@
 
     <!-- VIEW 2: Visual Cards -->
     <div class="view-content" id="view-cards">
+      <div class="cards-view-header">
+        <div class="cards-view-info">
+          <span id="cards-count-badge" class="tag font-mono">0 Products</span>
+          <span class="cards-hint-text">💡 Click any card to expand full economics &amp; supplier breakdown</span>
+        </div>
+        <div class="cards-view-actions">
+          <button type="button" class="btn btn-secondary" onclick="expandAllCards()" title="Expand all product cards" style="padding:5px 12px; font-size:12px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 11 12 6 17 11"/><polyline points="7 18 12 13 17 18"/></svg>
+            Expand All
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="collapseAllCards()" title="Collapse all product cards" style="padding:5px 12px; font-size:12px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="7 6 12 11 17 6"/><polyline points="7 13 12 18 17 13"/></svg>
+            Collapse All
+          </button>
+        </div>
+      </div>
       <div class="cards-layout" id="cards-grid">
         <!-- Dynamically populated cards -->
       </div>
@@ -2335,66 +2561,8 @@
       testThreshold: 10
     };
 
-    // Preloaded with user's exact dataset from tiktok_shop_uk_research.xlsx
-    let Products = [
-      {
-        id: "P001",
-        name: "Custom Name Mug",
-        cat: "Home & Kitchen",
-        src: "POD",
-        plat: "Printify",
-        variant: "11oz white ceramic",
-        link: "",
-        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80",
-        base: 4.20,
-        cust: 2.00,
-        ship: 3.10,
-        sell: 14.99,
-        ad: 1.50,
-        units: 300,
-        trend: "Rising",
-        ip: "Low",
-        days: 4
-      },
-      {
-        id: "P001",
-        name: "Custom Name Mug",
-        cat: "Home & Kitchen",
-        src: "POD",
-        plat: "Printful",
-        variant: "11oz white ceramic",
-        link: "",
-        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80",
-        base: 6.10,
-        cust: 1.50,
-        ship: 3.60,
-        sell: 14.99,
-        ad: 1.50,
-        units: 300,
-        trend: "Rising",
-        ip: "Low",
-        days: 5
-      },
-      {
-        id: "P002",
-        name: "Desk Cable Organiser",
-        cat: "Gadgets",
-        src: "Dropshipping",
-        plat: "N/A",
-        variant: "Set of 6, black",
-        link: "",
-        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
-        base: 1.80,
-        cust: 0.00,
-        ship: 2.40,
-        sell: 9.99,
-        ad: 1.20,
-        units: 500,
-        trend: "Rising",
-        ip: "Low",
-        days: 7
-      }
-    ];
+    // Clean Products array - populated live from Google Sheet sync
+    let Products = [];
 
     let currentEditingIndex = -1;
     let selectedVerdictFilter = "ALL";
@@ -2619,7 +2787,11 @@
     function renderTable(list) {
       const tbody = document.getElementById("table-body");
       if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="26" style="text-align:center; padding: 48px; color:var(--text-muted)">No matching products found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="26" style="text-align:center; padding: 60px 20px; color:var(--text-muted); font-size:14px;">
+          <div style="font-size:32px; margin-bottom:8px;">📊</div>
+          <b>No products found in research.</b>
+          <div style="font-size:12px; margin-top:6px; opacity:0.8;">Click <b>"+ Add Product"</b> or <b>"Sync"</b> with your live Google Sheet.</div>
+        </td></tr>`;
         return;
       }
 
@@ -2716,9 +2888,9 @@
             <!-- Actions -->
             <td class="c-act text-center">
               <div class="tbl-action-group">
-                <button class="tbl-btn" onclick="duplicateItem(${index})" title="Compare another supplier platform">
+                <button class="tbl-btn" onclick="duplicateItem(${index})" title="Duplicate this product row">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  Copy
+                  Duplicate
                 </button>
                 <button class="tbl-btn tbl-btn-edit" onclick="editItem(${index})" title="Edit product details">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -2732,18 +2904,77 @@
       }).join("");
     }
 
+    /* ==========================================================================
+       Cards View Logic & Expanded State
+       ========================================================================== */
+    const expandedCardIndexes = new Set();
+
+    function toggleCardExpand(index, event) {
+      if (event) {
+        // If clicked on an interactive control (buttons, links, inputs, selects, image preview)
+        if (event.target.closest("button, a, input, select, .no-card-toggle")) {
+          return;
+        }
+      }
+      if (expandedCardIndexes.has(index)) {
+        expandedCardIndexes.delete(index);
+      } else {
+        expandedCardIndexes.add(index);
+      }
+      const cardEl = document.getElementById(`prod-card-${index}`);
+      if (cardEl) {
+        const isNowExp = expandedCardIndexes.has(index);
+        cardEl.classList.toggle("is-expanded", isNowExp);
+        cardEl.setAttribute("aria-expanded", isNowExp ? "true" : "false");
+      }
+    }
+
+    function expandAllCards() {
+      document.querySelectorAll(".prod-card").forEach(cardEl => {
+        const idx = parseInt(cardEl.dataset.index, 10);
+        if (!isNaN(idx)) {
+          expandedCardIndexes.add(idx);
+          cardEl.classList.add("is-expanded");
+          cardEl.setAttribute("aria-expanded", "true");
+        }
+      });
+    }
+
+    function collapseAllCards() {
+      expandedCardIndexes.clear();
+      document.querySelectorAll(".prod-card").forEach(cardEl => {
+        cardEl.classList.remove("is-expanded");
+        cardEl.setAttribute("aria-expanded", "false");
+      });
+    }
+
     /* Cards View Render */
     function renderCards(list) {
       const grid = document.getElementById("cards-grid");
+      const countBadge = document.getElementById("cards-count-badge");
+      if (countBadge) {
+        countBadge.textContent = `${list.length} Product${list.length === 1 ? '' : 's'}`;
+      }
+
       if (!list.length) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 48px; color:var(--text-muted)">No matching products found.</p>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding: 60px 20px; color:var(--text-muted); font-size:14px;">
+          <div style="font-size:32px; margin-bottom:8px;">📦</div>
+          <b>No products found.</b>
+          <div style="font-size:12px; margin-top:6px; opacity:0.8;">Add your first product or sync with Google Sheet.</div>
+        </div>`;
         return;
       }
 
       grid.innerHTML = list.map(({ item, index, calc }) => {
         const pClass = calc.profit >= 0 ? "pos" : "neg";
         const vPill = `<span class="pill pill-${calc.verdict.toLowerCase()}">${calc.verdict}</span>`;
-        
+        const isExpanded = expandedCardIndexes.has(index);
+
+        const trendClass = (item.trend === "Rising") ? "trend-rising" : (item.trend === "Falling") ? "trend-falling" : "trend-stable";
+        const trendIcon = (item.trend === "Rising") ? "↗" : (item.trend === "Falling") ? "↘" : "→";
+        const riskClass = (item.ip === "High") ? "risk-high" : (item.ip === "Medium") ? "risk-med" : "risk-low";
+        const riskIcon = (item.ip === "High") ? "🛑" : (item.ip === "Medium") ? "⚠️" : "🛡️";
+
         const net = calc.netPrice || 1;
         const wCost = Math.min(100, (calc.totalCost / net) * 100);
         const wFee = Math.min(100, (calc.feeAmount / net) * 100);
@@ -2753,10 +2984,11 @@
         const wProfit = Math.max(0, Math.min(100, (calc.profit / net) * 100));
 
         return `
-          <div class="prod-card">
+          <div class="prod-card ${isExpanded ? 'is-expanded' : ''}" id="prod-card-${index}" data-index="${index}" onclick="toggleCardExpand(${index}, event)" onkeydown="if(event.key==='Enter'||event.key===' '){ if(!event.target.closest('button, a, input, select, .no-card-toggle')){ event.preventDefault(); toggleCardExpand(${index}, event); } }" tabindex="0" role="region" aria-label="${(item.name || 'Product').replace(/"/g, '&quot;')}" aria-expanded="${isExpanded ? 'true' : 'false'}">
+            <!-- 1. Card Header: Photo, Name, Tags, Verdict (Always Visible) -->
             <div class="prod-card-top" style="align-items:flex-start;">
               <div style="display:flex; gap:12px; align-items:center; min-width:0;">
-                <div class="prod-thumb-container" style="width:52px; height:52px; min-width:52px; border-radius:10px;" onclick="openImageModalByIndex(${index})" title="Click to view full image">
+                <div class="prod-thumb-container no-card-toggle" style="width:52px; height:52px; min-width:52px; border-radius:10px;" onclick="openImageModalByIndex(${index}); event.stopPropagation();" title="Click to view full preview">
                   ${item.image ? `
                     <img src="${item.image}" alt="${(item.name || '').replace(/"/g, '&quot;')}" class="prod-thumb-img" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'prod-thumb-placeholder\\' style=\\'font-size:22px;\\'>🖼️</span>';">
                   ` : `
@@ -2764,7 +2996,7 @@
                   `}
                 </div>
                 <div class="prod-card-title" style="min-width:0;">
-                  <h3 style="cursor:pointer;" onclick="openImageModalByIndex(${index})" title="Click to view full image preview">${item.name || "Untitled Product"}</h3>
+                  <h3 title="Click card to expand breakdown">${item.name || "Untitled Product"}</h3>
                   <div class="prod-card-meta">
                     <span class="tag font-mono"><b>${item.id || "P000"}</b></span>
                     <span class="tag">${item.plat || "N/A"}</span>
@@ -2773,9 +3005,12 @@
                   </div>
                 </div>
               </div>
-              ${vPill}
+              <div style="display:flex; align-items:center; gap:8px;">
+                ${vPill}
+              </div>
             </div>
 
+            <!-- 2. Main Metrics Box: Net Profit & Net Margin (Always Visible) -->
             <div class="metric-hero-box">
               <div class="metric-hero-item">
                 <span>Net Profit / Unit <small style="font-size:10px; opacity:0.75; font-weight:normal;">(Safe / Max)</small></span>
@@ -2787,54 +3022,110 @@
               </div>
             </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(148, 163, 184, 0.08); padding:6px 12px; border-radius:8px; font-size:12px; border:1px solid var(--border-subtle);">
+            <!-- 3. Cost Margin (Product Only) (Always Visible) -->
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(148, 163, 184, 0.08); padding:7px 12px; border-radius:8px; font-size:12px; border:1px solid var(--border-subtle);">
               <span style="color:var(--text-muted); font-weight:600;">Cost Margin (Product Only):</span>
               <b class="font-mono ${calc.grossProfit >= 0 ? 'pos' : 'neg'}">${pct(calc.costMargin)} (${gbp(calc.grossProfit)})</b>
             </div>
 
-            <div>
-              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted)">
-                <span>Net: ${gbp(calc.netPrice)}</span>
-                <span>Retail: ${gbp(item.sell)}</span>
-              </div>
-              <div class="waterfall-bar">
-                <span style="width: ${wCost}%; background: var(--chart-cost)" title="Supplier Cost"></span>
-                <span style="width: ${wFee}%; background: var(--chart-fee)" title="TikTok Fee"></span>
-                <span style="width: ${wCreator}%; background: var(--chart-creator)" title="Creator Commission"></span>
-                <span style="width: ${wRef}%; background: var(--chart-ref)" title="Refunds"></span>
-                <span style="width: ${wAd}%; background: var(--chart-ad)" title="Ads"></span>
-                <span style="width: ${wProfit}%; background: var(--chart-profit)" title="Profit"></span>
-              </div>
-              <div class="waterfall-legend">
-                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-cost)"></span>Cost ${gbp(calc.totalCost)}</div>
-                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-fee)"></span>TT ${gbp(calc.feeAmount)}</div>
-                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-creator)"></span>Creator ${gbp(calc.creatorAmount)}</div>
-                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-ad)"></span>Ads ${gbp(item.ad)}</div>
-                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-profit)"></span>Profit ${gbp(calc.profit)} <span style="font-size:10px; opacity:0.75;">(max ${gbp(calc.profitZeroRefund)})</span></div>
-              </div>
+            <!-- 4. Interactive Expand / Collapse Cue Bar (Always Visible) -->
+            <div class="card-expand-bar">
+              <span class="card-expand-text-collapsed">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px; vertical-align:-1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Click to view full breakdown
+              </span>
+              <span class="card-expand-text-expanded">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:4px; vertical-align:-1px;"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Hide breakdown &amp; details
+              </span>
+              <span class="card-expand-icon">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
             </div>
 
-            <div class="card-footer-details">
-              <div>
-                <span>Break-Even</span>
-                <b class="font-mono">${gbp(calc.breakEven)}</b>
+            <!-- 5. FULL DETAIL SECTION (Visible Only When Expanded) -->
+            <div class="prod-card-expanded-content">
+              <!-- Revenue & Pricing Strip -->
+              <div class="card-econ-strip">
+                <div class="card-econ-strip-item">
+                  <span>Retail (inc. VAT)</span>
+                  <b class="font-mono">${gbp(item.sell)}</b>
+                </div>
+                <div class="card-econ-strip-item">
+                  <span>Net Price (ex. VAT)</span>
+                  <b class="font-mono" style="color:var(--text-muted);">${gbp(calc.netPrice)}</b>
+                </div>
+                <div class="card-econ-strip-item">
+                  <span>Break-Even</span>
+                  <b class="font-mono">${gbp(calc.breakEven)}</b>
+                </div>
+                <div class="card-econ-strip-item">
+                  <span>Target Go (25%)</span>
+                  <b class="font-mono" style="color:var(--accent-light);">${gbp(calc.targetGo)}</b>
+                </div>
               </div>
-              <div>
-                <span>Target (Go)</span>
-                <b class="font-mono" style="color:var(--accent-light)">${gbp(calc.targetGo)}</b>
-              </div>
-              <div>
-                <span>Monthly Est.</span>
-                <b class="font-mono">${item.units ? `${gbp(calc.monthlyProfit)} <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${gbp(calc.monthlyProfitZeroRefund)}</span>` : "-"}</b>
-              </div>
-            </div>
 
-            <div class="card-bottom-actions">
-              ${item.image ? `<button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="openImageModalByIndex(${index})">👁 Preview</button>` : ""}
-              ${item.link ? `<a href="${item.link}" target="_blank" class="btn btn-secondary" style="padding:4px 10px; font-size:12px; text-decoration:none;">Link ↗</a>` : ""}
-              <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="duplicateItem(${index})">Compare Supplier</button>
-              <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="editItem(${index})">Edit</button>
-              <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px; color:var(--bad);" onclick="deleteItem(${index})">Delete</button>
+              <!-- Supplier Costs Breakdown -->
+              <div class="card-cost-breakdown">
+                <div><span>Base Cost:</span><b class="font-mono">${gbp(item.base)}</b></div>
+                <div><span>Custom/Print:</span><b class="font-mono">${gbp(item.cust)}</b></div>
+                <div><span>Shipping:</span><b class="font-mono">${gbp(item.ship)}</b></div>
+                <div><span style="font-weight:700; color:var(--text-main);">Supplier Total:</span><b class="font-mono" style="color:var(--bad);">${gbp(calc.totalCost)}</b></div>
+              </div>
+
+              <!-- Waterfall Revenue & Deductions Split -->
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); margin-bottom:4px;">
+                  <span style="font-weight:600;">Economics Split (${gbp(calc.netPrice)} Net)</span>
+                  <span>Deductions: <b>${gbp(calc.deductionsTotal)}</b></span>
+                </div>
+                <div class="waterfall-bar">
+                  <span style="width: ${wCost}%; background: var(--chart-cost)" title="Supplier Cost: ${gbp(calc.totalCost)}"></span>
+                  <span style="width: ${wFee}%; background: var(--chart-fee)" title="TikTok Fee: ${gbp(calc.feeAmount)}"></span>
+                  <span style="width: ${wCreator}%; background: var(--chart-creator)" title="Creator Commission: ${gbp(calc.creatorAmount)}"></span>
+                  <span style="width: ${wRef}%; background: var(--chart-ref)" title="Refunds: ${gbp(calc.refundAmount)}"></span>
+                  <span style="width: ${wAd}%; background: var(--chart-ad)" title="Ads: ${gbp(item.ad)}"></span>
+                  <span style="width: ${wProfit}%; background: var(--chart-profit)" title="Net Profit: ${gbp(calc.profit)}"></span>
+                </div>
+                <div class="waterfall-legend">
+                  <div class="wf-item"><span class="wf-dot" style="background:var(--chart-cost)"></span>Cost ${gbp(calc.totalCost)}</div>
+                  <div class="wf-item"><span class="wf-dot" style="background:var(--chart-fee)"></span>TT Fee ${gbp(calc.feeAmount)}</div>
+                  <div class="wf-item"><span class="wf-dot" style="background:var(--chart-creator)"></span>Creator ${gbp(calc.creatorAmount)}</div>
+                  <div class="wf-item"><span class="wf-dot" style="background:var(--chart-ref)"></span>Ref (4%) ${gbp(calc.refundAmount)}</div>
+                  <div class="wf-item"><span class="wf-dot" style="background:var(--chart-ad)"></span>Ads ${gbp(item.ad)}</div>
+                  <div class="wf-item"><span class="wf-dot" style="background:var(--chart-profit)"></span>Profit ${gbp(calc.profit)} <span style="font-size:10px; opacity:0.75;">(max ${gbp(calc.profitZeroRefund)})</span></div>
+                </div>
+              </div>
+
+              <!-- Forecast & Market Risk Signals -->
+              <div class="card-footer-details">
+                <div>
+                  <span>Monthly Units</span>
+                  <b class="font-mono">${item.units ? item.units.toLocaleString() : "-"}</b>
+                </div>
+                <div>
+                  <span>Monthly Profit (Safe / 0%)</span>
+                  <b class="font-mono ${pClass}">${item.units ? `${gbp(calc.monthlyProfit)} <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${gbp(calc.monthlyProfitZeroRefund)}</span>` : "-"}</b>
+                </div>
+                <div>
+                  <span>Logistics &amp; Risk</span>
+                  <div style="display:flex; gap:6px; align-items:center; margin-top:2px;">
+                    <span class="trend-pill ${trendClass}" style="padding:2px 6px; font-size:10.5px;">${trendIcon} ${item.trend || "Stable"}</span>
+                    <span class="risk-pill ${riskClass}" style="padding:2px 6px; font-size:10.5px;">${riskIcon} ${item.ip || "Low"}</span>
+                    <span class="delivery-pill" style="padding:2px 6px; font-size:10.5px;">${item.days ? item.days + "d" : "-"}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Toolbar -->
+              <div class="card-bottom-actions">
+                ${item.image ? `<button type="button" class="btn btn-secondary no-card-toggle" style="padding:5px 10px; font-size:12px;" onclick="openImageModalByIndex(${index}); event.stopPropagation();">👁 Preview</button>` : ""}
+                ${item.link ? `<a href="${item.link}" target="_blank" class="btn btn-secondary no-card-toggle" style="padding:5px 10px; font-size:12px; text-decoration:none;" onclick="event.stopPropagation();">TikTok ↗</a>` : ""}
+                <button type="button" class="btn btn-secondary no-card-toggle" style="padding:5px 10px; font-size:12px;" onclick="duplicateItem(${index}); event.stopPropagation();" title="Duplicate product to compare supplier">Compare</button>
+                <button type="button" class="btn btn-secondary no-card-toggle" style="padding:5px 10px; font-size:12px;" onclick="editItem(${index}); event.stopPropagation();">Edit</button>
+                <button type="button" class="btn btn-secondary no-card-toggle" style="padding:5px 10px; font-size:12px; color:var(--bad);" onclick="deleteItem(${index}); event.stopPropagation();">Delete</button>
+                <button type="button" class="btn btn-secondary no-card-toggle" style="padding:5px 10px; font-size:12px; margin-left:auto;" onclick="toggleCardExpand(${index}); event.stopPropagation();">▲ Collapse</button>
+              </div>
             </div>
           </div>
         `;
@@ -3148,11 +3439,13 @@
 
     function duplicateItem(index) {
       const src = Products[index];
-      const copy = { ...src, plat: src.plat === "Printify" ? "Printful" : "Printify" };
+      if (!src) return;
+      // Preserve exact platform, supplier and all properties - do NOT force Printful
+      const copy = { ...src };
       Products.splice(index + 1, 0, copy);
       persistData();
       refreshAll();
-      showToast(`Duplicated ${src.id} to compare suppliers!`);
+      showToast(`Duplicated ${src.id} (${src.name || "item"})`);
       syncToGoogleSheet(copy, "add");
     }
 
@@ -3495,7 +3788,9 @@
           Products = data.products;
           persistData();
           refreshAll();
-          showToast("Synced with Google Sheet!");
+          const label = document.getElementById("sync-label");
+          if (label) label.textContent = `Google Sheet Live (${Products.length})`;
+          showToast(`Synced ${Products.length} items from Google Sheet!`);
         }
       } catch (e) {
         alert("Failed to sync. Check Google Apps Script Webhook URL.");
@@ -3532,15 +3827,32 @@
             }
           }
           if (parsed.Products && parsed.Products.length) {
-            Products = parsed.Products.map(p => {
-              if (p.image === undefined) {
-                if (p.id === "P001") p.image = "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80";
-                else if (p.id === "P002") p.image = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80";
-                else p.image = "";
-              }
-              return p;
-            });
+            // Filter out any legacy dummy sample products so only real products are loaded
+            Products = parsed.Products.filter(p => p.name !== "Custom Name Mug" && p.name !== "Desk Cable Organiser");
           }
+        }
+        if (!Products.length) {
+          Products = [
+            {
+              id: "P001",
+              name: "Vintage Aesthetic Graphic T-Shirt",
+              cat: "Apparel",
+              src: "POD",
+              plat: "Printify",
+              variant: "Heavy Cotton / Black L",
+              link: "",
+              image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80",
+              base: 2.99,
+              cust: 0.00,
+              ship: 2.00,
+              sell: 10.99,
+              ad: 0.00,
+              units: 150,
+              trend: "Rising",
+              ip: "Low",
+              days: 3
+            }
+          ];
         }
       } catch (e) {}
     }
@@ -3580,16 +3892,22 @@
     /* Auto-Sync from Google Sheet on Launch */
     async function autoFetchFromSheet() {
       if (!AppConfig.webhookUrl) return;
+      const dot = document.getElementById("sync-dot");
+      const label = document.getElementById("sync-label");
+      if (label) label.textContent = "Syncing Sheet...";
       try {
         const res = await fetch(AppConfig.webhookUrl + (AppConfig.webhookUrl.includes("?") ? "&" : "?") + "action=getAll");
         const data = await res.json();
-        if (data && data.products && Array.isArray(data.products) && data.products.length > 0) {
+        if (data && data.products && Array.isArray(data.products)) {
           Products = data.products;
           persistData();
           refreshAll();
+          if (label) label.textContent = `Google Sheet Live (${Products.length})`;
+          if (dot) dot.className = "sync-indicator connected";
         }
       } catch (err) {
         // Fallback silently to preloaded data if offline
+        if (label) label.textContent = "Google Sheet Live";
       }
     }
 
