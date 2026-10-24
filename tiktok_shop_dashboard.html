@@ -1,0 +1,3603 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TikTok Shop UK • Product Intelligence OS</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* ==========================================================================
+       CSS Variables - Premium Next-Gen Dark & Light Palettes
+       ========================================================================== */
+    :root[data-theme="dark"] {
+      --bg-app: #080C14;
+      --bg-surface: #0E1626;
+      --bg-card: #131E33;
+      --bg-card-hover: #192742;
+      --bg-subtle: #17233B;
+      --bg-input: #0B1220;
+      --bg-modal: #111B2E;
+      
+      --border: #1E2E4B;
+      --border-subtle: #17243B;
+      --border-focus: #38BDF8;
+      
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-faint: #64748B;
+      
+      --accent: #0284C7;
+      --accent-hover: #0369A1;
+      --accent-glow: rgba(56, 189, 248, 0.2);
+      --accent-light: #38BDF8;
+
+      --good: #10B981;
+      --good-bg: rgba(16, 185, 129, 0.12);
+      --good-border: rgba(16, 185, 129, 0.3);
+      --good-glow: rgba(16, 185, 129, 0.25);
+      
+      --warn: #F59E0B;
+      --warn-bg: rgba(245, 158, 11, 0.12);
+      --warn-border: rgba(245, 158, 11, 0.3);
+      
+      --bad: #F43F5E;
+      --bad-bg: rgba(244, 63, 94, 0.12);
+      --bad-border: rgba(244, 63, 94, 0.3);
+      
+      --chart-cost: #64748B;
+      --chart-fee: #F59E0B;
+      --chart-creator: #EC4899;
+      --chart-ref: #8B5CF6;
+      --chart-ad: #06B6D4;
+      --chart-profit: #10B981;
+
+      /* Column Group Theming - Dark Mode (Solid opaque headers for clean sticky scrolling) */
+      --grp-prod-head: #0c2035;
+      --grp-prod-text: #38BDF8;
+      --grp-prod-border: #153c63;
+      --grp-prod-bg: rgba(14, 165, 233, 0.035);
+      --grp-prod-hover: rgba(14, 165, 233, 0.08);
+
+      --grp-cost-head: #141c2c;
+      --grp-cost-text: #E2E8F0;
+      --grp-cost-border: #28354c;
+      --grp-cost-bg: rgba(148, 163, 184, 0.025);
+      --grp-cost-hover: rgba(148, 163, 184, 0.065);
+
+      --grp-sell-head: #281d09;
+      --grp-sell-text: #FBBF24;
+      --grp-sell-border: #4d360f;
+      --grp-sell-bg: rgba(245, 158, 11, 0.035);
+      --grp-sell-hover: rgba(245, 158, 11, 0.08);
+
+      --grp-res-head: #08291d;
+      --grp-res-text: #34D399;
+      --grp-res-border: #134e3a;
+      --grp-res-bg: rgba(16, 185, 129, 0.045);
+      --grp-res-hover: rgba(16, 185, 129, 0.095);
+
+      --grp-risk-head: #221438;
+      --grp-risk-text: #C084FC;
+      --grp-risk-border: #472175;
+      --grp-risk-bg: rgba(168, 85, 247, 0.035);
+      --grp-risk-hover: rgba(168, 85, 247, 0.08);
+
+      --grp-act-head: #0f172a;
+
+      --border-divider: #263857;
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 20px 30px -10px rgba(0, 0, 0, 0.6), 0 10px 15px -5px rgba(0, 0, 0, 0.4);
+      --glass: rgba(14, 22, 38, 0.85);
+    }
+
+    :root[data-theme="light"] {
+      --bg-app: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #F1F5F9;
+      --bg-subtle: #F1F5F9;
+      --bg-input: #FFFFFF;
+      --bg-modal: #FFFFFF;
+      
+      --border: #E2E8F0;
+      --border-subtle: #EEF2F6;
+      --border-focus: #0284C7;
+      
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      
+      --accent: #0284C7;
+      --accent-hover: #0369A1;
+      --accent-glow: rgba(2, 132, 199, 0.15);
+      --accent-light: #0284C7;
+
+      --good: #059669;
+      --good-bg: #ECFDF5;
+      --good-border: #A7F3D0;
+      --good-glow: rgba(5, 150, 105, 0.2);
+      
+      --warn: #D97706;
+      --warn-bg: #FFFBEB;
+      --warn-border: #FDE68A;
+      
+      --bad: #E11D48;
+      --bad-bg: #FFF1F2;
+      --bad-border: #FECDD3;
+      
+      --chart-cost: #94A3B8;
+      --chart-fee: #F59E0B;
+      --chart-creator: #D946EF;
+      --chart-ref: #A855F7;
+      --chart-ad: #0284C7;
+      --chart-profit: #059669;
+
+      /* Column Group Theming - Light Mode */
+      --grp-prod-head: #E0F2FE;
+      --grp-prod-text: #0284C7;
+      --grp-prod-border: #BAE6FD;
+      --grp-prod-bg: rgba(2, 132, 199, 0.03);
+      --grp-prod-hover: rgba(2, 132, 199, 0.07);
+
+      --grp-cost-head: #F1F5F9;
+      --grp-cost-text: #334155;
+      --grp-cost-border: #CBD5E1;
+      --grp-cost-bg: rgba(100, 116, 139, 0.02);
+      --grp-cost-hover: rgba(100, 116, 139, 0.06);
+
+      --grp-sell-head: #FEF3C7;
+      --grp-sell-text: #92400E;
+      --grp-sell-border: #FDE68A;
+      --grp-sell-bg: rgba(217, 119, 6, 0.03);
+      --grp-sell-hover: rgba(217, 119, 6, 0.07);
+
+      --grp-res-head: #D1FAE5;
+      --grp-res-text: #065F46;
+      --grp-res-border: #A7F3D0;
+      --grp-res-bg: rgba(5, 150, 105, 0.035);
+      --grp-res-hover: rgba(5, 150, 105, 0.08);
+
+      --grp-risk-head: #EDE9FE;
+      --grp-risk-text: #5B21B6;
+      --grp-risk-border: #DDD6FE;
+      --grp-risk-bg: rgba(109, 40, 217, 0.03);
+      --grp-risk-hover: rgba(109, 40, 217, 0.07);
+
+      --grp-act-head: #F8FAFC;
+
+      --border-divider: #CBD5E1;
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --glass: rgba(255, 255, 255, 0.88);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-app); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+    /* ==========================================================================
+       Header & Navigation
+       ========================================================================== */
+    header {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #0284C7 0%, #06B6D4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: var(--good-bg);
+      color: var(--good);
+      border: 1px solid var(--good-border);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-text p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* View Switcher */
+    .view-pills {
+      display: flex;
+      background: var(--bg-app);
+      border: 1px solid var(--border);
+      padding: 4px;
+      border-radius: 11px;
+      gap: 4px;
+    }
+
+    .view-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .view-pill:hover {
+      color: var(--text-main);
+    }
+
+    .view-pill.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Actions */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sync-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .sync-badge:hover {
+      border-color: var(--border-focus);
+    }
+
+    .sync-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--warn);
+    }
+    .sync-indicator.connected {
+      background: var(--good);
+      box-shadow: 0 0 10px var(--good);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      outline: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      color: #FFF;
+      box-shadow: 0 2px 10px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-subtle);
+      border-color: var(--text-faint);
+    }
+
+    .btn-icon {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 9px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .btn-icon:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-focus);
+    }
+
+    /* ==========================================================================
+       Main Workspace Layout
+       ========================================================================== */
+    main {
+      max-width: 1680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 28px 60px;
+      flex: 1;
+    }
+
+    /* KPI Summary Cards */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-focus);
+    }
+
+    .kpi-icon-glow {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      filter: blur(20px);
+      pointer-events: none;
+    }
+
+    .kpi-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Filter & Controls Toolbar */
+    .toolbar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      min-width: 280px;
+    }
+
+    .search-input-wrap input {
+      width: 100%;
+      padding: 9px 12px 9px 36px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+    }
+    .search-input-wrap input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .search-ico {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .kbd-shortcut {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-faint);
+    }
+
+    /* Quick Filter Chips */
+    .filter-chips {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .chip {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #FFF;
+    }
+
+    .chip-count {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 99px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .chip.active .chip-count {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    select.styled-select {
+      padding: 8px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Views */
+    .view-content {
+      display: none;
+    }
+    .view-content.active {
+      display: block;
+    }
+
+    /* ==========================================================================
+       Table View Styling (High-Density)
+       ========================================================================== */
+    .table-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      width: 100%;
+      /* Full vertical expansion - no restrictive inner box scroll */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    /* Fixed / Sticky Table Headers */
+    thead {
+      position: relative;
+      z-index: 35;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      will-change: transform;
+      transition: box-shadow 0.2s ease;
+    }
+
+    thead.is-fixed {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    thead th {
+      padding: 10px 12px;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    /* Category Group Banners */
+    th.gh {
+      padding: 8px 12px;
+      text-align: center;
+      border-bottom: 2px solid;
+    }
+
+    .gh-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    th.gh-prod { background: var(--grp-prod-head); color: var(--grp-prod-text); border-color: var(--grp-prod-border); }
+    th.gh-prod .gh-badge { background: var(--grp-prod-head); border: 1px solid var(--grp-prod-border); color: var(--grp-prod-text); }
+
+    th.gh-cost { background: var(--grp-cost-head); color: var(--grp-cost-text); border-color: var(--grp-cost-border); }
+    th.gh-cost .gh-badge { background: var(--grp-cost-head); border: 1px solid var(--grp-cost-border); color: var(--grp-cost-text); }
+
+    th.gh-sell { background: var(--grp-sell-head); color: var(--grp-sell-text); border-color: var(--grp-sell-border); }
+    th.gh-sell .gh-badge { background: var(--grp-sell-head); border: 1px solid var(--grp-sell-border); color: var(--grp-sell-text); }
+
+    th.gh-res { background: var(--grp-res-head); color: var(--grp-res-text); border-color: var(--grp-res-border); }
+    th.gh-res .gh-badge { background: var(--grp-res-head); border: 1px solid var(--grp-res-border); color: var(--grp-res-text); }
+
+    th.gh-risk { background: var(--grp-risk-head); color: var(--grp-risk-text); border-color: var(--grp-risk-border); }
+    th.gh-risk .gh-badge { background: var(--grp-risk-head); border: 1px solid var(--grp-risk-border); color: var(--grp-risk-text); }
+
+    th.gh-act { background: var(--grp-act-head); color: var(--text-muted); border-color: var(--border); }
+    th.gh-act .gh-badge { background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted); }
+
+    /* Column Sub-Headers */
+    th.th-prod { background: var(--grp-prod-head); color: var(--grp-prod-text); border-bottom: 2px solid var(--grp-prod-border); }
+    th.th-cost { background: var(--grp-cost-head); color: var(--grp-cost-text); border-bottom: 2px solid var(--grp-cost-border); }
+    th.th-sell { background: var(--grp-sell-head); color: var(--grp-sell-text); border-bottom: 2px solid var(--grp-sell-border); }
+    th.th-res { background: var(--grp-res-head); color: var(--grp-res-text); border-bottom: 2px solid var(--grp-res-border); }
+    th.th-risk { background: var(--grp-risk-head); color: var(--grp-risk-text); border-bottom: 2px solid var(--grp-risk-border); }
+    th.th-act { background: var(--grp-act-head); color: var(--text-muted); border-bottom: 2px solid var(--border); }
+
+    /* Alignment Utility Classes */
+    .text-left { text-align: left !important; }
+    .text-center { text-align: center !important; }
+    .text-right { text-align: right !important; }
+
+    /* Group End Vertical Divider Separator */
+    th.grp-end, td.grp-end {
+      border-right: 2px solid var(--border-divider) !important;
+    }
+
+    /* Row Cells Tinted to Match Group Headers */
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      white-space: nowrap;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    td.c-prod { background: var(--grp-prod-bg); }
+    td.c-cost { background: var(--grp-cost-bg); }
+    td.c-sell { background: var(--grp-sell-bg); }
+    td.c-res { background: var(--grp-res-bg); }
+    td.c-risk { background: var(--grp-risk-bg); }
+    td.c-act { background: var(--bg-surface); }
+
+    /* Hover Highlighting */
+    tbody tr:hover td.c-prod { background: var(--grp-prod-hover); }
+    tbody tr:hover td.c-cost { background: var(--grp-cost-hover); }
+    tbody tr:hover td.c-sell { background: var(--grp-sell-hover); }
+    tbody tr:hover td.c-res { background: var(--grp-res-hover); }
+    tbody tr:hover td.c-risk { background: var(--grp-risk-hover); }
+    tbody tr:hover td.c-act { background: var(--bg-subtle); }
+
+    /* Product Specific Badges & Components */
+    .pid-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--accent-light);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .prod-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+      cursor: pointer;
+      transition: color 0.15s ease;
+      max-width: 260px;
+      white-space: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .prod-title:hover {
+      color: var(--accent-light);
+    }
+
+    .prod-tiktok-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      background: rgba(2, 132, 199, 0.1);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      color: var(--accent-light);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .prod-tiktok-badge:hover {
+      background: var(--accent);
+      color: #FFF;
+      border-color: var(--accent);
+    }
+
+    .prod-no-link {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 10.5px;
+      color: var(--text-faint);
+      cursor: pointer;
+    }
+    .prod-no-link:hover {
+      color: var(--accent-light);
+      text-decoration: underline;
+    }
+
+    .cat-pill {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .src-pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .src-pod {
+      background: rgba(147, 51, 234, 0.12);
+      color: #9333EA;
+      border: 1px solid rgba(147, 51, 234, 0.3);
+    }
+    .src-drop {
+      background: rgba(6, 182, 212, 0.12);
+      color: #06B6D4;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .plat-pill {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+    .plat-printify {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.08);
+      color: #059669;
+    }
+    .plat-printful {
+      border-color: rgba(239, 68, 68, 0.35);
+      background: rgba(239, 68, 68, 0.08);
+      color: #DC2626;
+    }
+    .plat-gelato {
+      border-color: rgba(245, 158, 11, 0.35);
+      background: rgba(245, 158, 11, 0.08);
+      color: #D97706;
+    }
+    .plat-prodigi {
+      border-color: rgba(59, 130, 246, 0.35);
+      background: rgba(59, 130, 246, 0.08);
+      color: #2563EB;
+    }
+
+    .variant-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+    }
+
+    .total-cost-pill {
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--grp-cost-border);
+      color: var(--text-main);
+    }
+
+    .sell-val {
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .net-profit-cell {
+      white-space: nowrap;
+    }
+
+    .margin-meter-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+    .meter-track {
+      width: 48px;
+      height: 5px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    :root[data-theme="dark"] .meter-track {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .meter-bar {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    /* Verdict Badges & Pulsing Dots */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pill-go {
+      background: var(--good-bg);
+      color: var(--good);
+      border: 1px solid var(--good-border);
+      box-shadow: 0 0 8px var(--good-glow);
+    }
+
+    .pill-test {
+      background: var(--warn-bg);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+    }
+
+    .pill-skip {
+      background: var(--bad-bg);
+      color: var(--bad);
+      border: 1px solid var(--bad-border);
+    }
+
+    .verdict-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-go {
+      background: var(--good);
+      box-shadow: 0 0 6px var(--good);
+    }
+    .dot-test {
+      background: var(--warn);
+    }
+    .dot-skip {
+      background: var(--bad);
+    }
+
+    .trend-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .trend-rising { background: rgba(16, 185, 129, 0.12); color: var(--good); }
+    .trend-stable { background: rgba(148, 163, 184, 0.12); color: var(--text-muted); }
+    .trend-falling { background: rgba(239, 68, 68, 0.12); color: var(--bad); }
+
+    .risk-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .risk-low { background: rgba(16, 185, 129, 0.12); color: var(--good); }
+    .risk-med { background: rgba(245, 158, 11, 0.12); color: var(--warn); }
+    .risk-high { background: rgba(239, 68, 68, 0.12); color: var(--bad); }
+
+    .delivery-pill {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .tbl-action-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tbl-btn {
+      padding: 5px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .tbl-btn:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-focus);
+    }
+    .tbl-btn-edit:hover {
+      border-color: var(--accent);
+      color: var(--accent-light);
+    }
+    .tbl-btn-del {
+      color: var(--bad);
+      padding: 5px 8px;
+    }
+    .tbl-btn-del:hover {
+      background: var(--bad-bg);
+      border-color: var(--bad-border);
+    }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .pos { color: var(--good); font-weight: 700; }
+    .neg { color: var(--bad); font-weight: 700; }
+
+    /* ==========================================================================
+       Cards View Styling
+       ========================================================================== */
+    .cards-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 20px;
+    }
+
+    .prod-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .prod-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-focus);
+    }
+
+    .prod-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .prod-card-title h3 {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .prod-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .metric-hero-box {
+      background: var(--bg-subtle);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .metric-hero-item span {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .metric-hero-item b {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    /* Profit Split Bar */
+    .waterfall-bar {
+      height: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    .waterfall-bar span {
+      height: 100%;
+    }
+
+    .waterfall-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .wf-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .wf-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+    }
+
+    .card-footer-details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .card-footer-details div span {
+      display: block;
+      color: var(--text-faint);
+      font-size: 11px;
+    }
+
+    .card-footer-details div b {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .card-bottom-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      margin-top: auto;
+    }
+
+    /* ==========================================================================
+       Analytics View Styling
+       ========================================================================== */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 992px) {
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+
+    .chart-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chart-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .chart-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 280px;
+      width: 100%;
+    }
+
+    /* Simulator Widget */
+    .simulator-card {
+      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sim-slider-row {
+      margin-bottom: 18px;
+    }
+
+    .sim-slider-row label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border);
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* ==========================================================================
+       Modals & Responsive Dialogs
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 2.5vw, 36px);
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-modal);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: min(1240px, 96vw);
+      max-height: min(92vh, 960px);
+      box-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalScaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header-bar {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-modal);
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    .modal-body-content {
+      padding: 26px 32px;
+      flex: 1;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .modal-footer-bar {
+      padding: 16px 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-modal);
+      flex-shrink: 0;
+      z-index: 5;
+    }
+
+    /* Modal Form 2-Column Responsive Layout */
+    .form-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(360px, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .form-inputs-col {
+      min-width: 0;
+    }
+
+    .form-calc-col {
+      position: sticky;
+      top: 0;
+      min-width: 0;
+      z-index: 2;
+    }
+
+    @media (max-width: 980px) {
+      .form-split {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .form-calc-col {
+        position: static;
+      }
+      .modal-box {
+        width: 100%;
+        max-height: 94vh;
+        border-radius: 16px;
+      }
+      .modal-header-bar, .modal-body-content, .modal-footer-bar {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    .form-group-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-field-grid {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .form-grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      .form-grid-2, .form-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .field input, .field select, .field textarea {
+      padding: 10px 13px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: var(--bg-surface);
+    }
+
+    /* Live Calculator in Modal */
+    .live-calc-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .calc-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border-subtle);
+    }
+
+    .calc-line.primary {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      border-bottom: none;
+      padding-top: 6px;
+      padding-bottom: 2px;
+    }
+
+    /* Toast */
+    .toast-popup {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 14px 22px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      z-index: 200;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: popUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-popup.show { display: flex; }
+
+    @keyframes popUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Product Image Thumbnail & Lightbox Styles */
+    .prod-thumb-container {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      overflow: hidden;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+    .prod-thumb-container:hover {
+      transform: scale(1.08);
+      border-color: var(--accent);
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+    .prod-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .prod-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+      color: var(--accent-light);
+      user-select: none;
+    }
+    .prod-thumb-hover-hint {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      border-radius: 9px;
+    }
+    .prod-thumb-container:hover .prod-thumb-hover-hint {
+      opacity: 1;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 250;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .lightbox-backdrop.open {
+      display: flex;
+    }
+    .lightbox-dialog {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 980px;
+      width: min(980px, 94vw);
+      max-height: min(92vh, 900px);
+      box-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .lightbox-header {
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-subtle);
+    }
+    .lightbox-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-canvas);
+      flex: 1;
+      min-height: 340px;
+      max-height: 70vh;
+      overflow: auto;
+    }
+    .lightbox-image {
+      max-width: 100%;
+      max-height: min(66vh, 660px);
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      background: var(--bg-surface);
+    }
+    .lightbox-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .lightbox-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .lightbox-stats span {
+      color: var(--text-muted);
+    }
+    .lightbox-stats b {
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      margin-left: 4px;
+    }
+
+    /* Modal Form Image Preview Box */
+    .img-input-preview-box {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+    }
+    .img-input-preview-box.show {
+      display: flex;
+    }
+    .img-input-preview-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: var(--bg-canvas);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       Header & Nav
+       ======================================================================== -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="brand-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>TikTok Shop UK <span class="brand-tag">Intelligence OS</span></h1>
+          <p>Real-time unit economics, VAT, and supplier arbitrage</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="view-pills">
+        <button class="view-pill active" data-view="table">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          Table View
+        </button>
+        <button class="view-pill" data-view="cards">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          Cards View
+        </button>
+        <button class="view-pill" data-view="compare">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Supplier Comparator
+        </button>
+        <button class="view-pill" data-view="analytics">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"/></svg>
+          Analytics & Insights
+        </button>
+      </div>
+
+      <!-- Header Right Controls -->
+      <div class="header-actions">
+        <!-- Google Sheet Sync Status -->
+        <div class="sync-badge" id="btn-sync-settings" title="Click to configure Google Sheet Webhook">
+          <span class="sync-indicator" id="sync-dot"></span>
+          <span id="sync-label">Local Mode</span>
+        </div>
+
+        <!-- Light / Dark Toggle -->
+        <button class="btn-icon" id="theme-btn" title="Toggle Light/Dark Theme">
+          <svg id="theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="theme-sun" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+
+        <!-- Settings Button -->
+        <button class="btn-icon" id="btn-open-settings" title="Global Fee & VAT Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+
+        <!-- New Product Button -->
+        <button class="btn btn-primary" id="btn-add-product">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Add Product
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       Main Content
+       ======================================================================== -->
+  <main>
+    <!-- KPI Ribbon -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-icon-glow"></div>
+        <div class="kpi-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 5l-8 4-8-4m16 5l-8 4-8-4"/></svg>
+          Products Researched
+        </div>
+        <div class="kpi-value font-mono" id="kpi-distinct-count">0</div>
+        <div class="kpi-sub"><span id="kpi-rows-count">0</span> supplier platform rows</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title" style="color:var(--good)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          "GO" Verdict Opportunities
+        </div>
+        <div class="kpi-value pos font-mono" id="kpi-go-count">0</div>
+        <div class="kpi-sub">Margin meets or exceeds 25%</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Average Margin
+        </div>
+        <div class="kpi-value font-mono" id="kpi-avg-margin">0.0%</div>
+        <div class="kpi-sub" id="kpi-best-margin-sub">Highest: 0.0%</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Est. Monthly Profit
+        </div>
+        <div class="kpi-value font-mono" id="kpi-monthly-profit">£0.00</div>
+        <div class="kpi-sub">Across forecasted unit volume</div>
+      </div>
+    </div>
+
+    <!-- Filters & Action Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <!-- Search -->
+        <div class="search-input-wrap">
+          <svg class="search-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="filter-search" placeholder="Search by name, ID, variant...">
+          <span class="kbd-shortcut">/</span>
+        </div>
+
+        <!-- Filter Chips with counts -->
+        <div class="filter-chips">
+          <div class="chip active" data-verdict="ALL">All <span class="chip-count" id="count-all">0</span></div>
+          <div class="chip" data-verdict="Go">🟢 Go <span class="chip-count" id="count-go">0</span></div>
+          <div class="chip" data-verdict="Test">🟡 Test <span class="chip-count" id="count-test">0</span></div>
+          <div class="chip" data-verdict="Skip">🔴 Skip <span class="chip-count" id="count-skip">0</span></div>
+        </div>
+
+        <!-- Dropdowns -->
+        <select class="styled-select" id="filter-platform">
+          <option value="ALL">All Suppliers</option>
+          <option value="Printify">Printify</option>
+          <option value="Printful">Printful</option>
+          <option value="Gelato">Gelato</option>
+          <option value="Prodigi">Prodigi</option>
+          <option value="Other POD">Other POD</option>
+          <option value="N/A">Dropshipping (N/A)</option>
+        </select>
+      </div>
+
+      <div class="toolbar-right">
+        <select class="styled-select" id="sort-order">
+          <option value="margin-desc">Sort: Highest Margin %</option>
+          <option value="profit-desc">Sort: Highest Profit (£)</option>
+          <option value="price-asc">Sort: Lowest Supplier Cost</option>
+          <option value="id-asc">Sort: Product ID</option>
+        </select>
+
+        <button class="btn btn-secondary" id="btn-export-csv" title="Export research to CSV">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          CSV
+        </button>
+
+        <button class="btn btn-secondary" id="btn-sync-now" title="Trigger instant sync with Google Sheet">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Sync
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 1: High Density Table -->
+    <div class="view-content active" id="view-table">
+      <div class="table-wrapper">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th colspan="6" class="gh gh-prod grp-end">
+                  <div class="gh-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    <span>1. Product & Platform</span>
+                  </div>
+                </th>
+                <th colspan="4" class="gh gh-cost grp-end">
+                  <div class="gh-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    <span>2. Supplier Costs (£)</span>
+                  </div>
+                </th>
+                <th colspan="4" class="gh gh-sell grp-end">
+                  <div class="gh-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    <span>3. Retail & Fees (£)</span>
+                  </div>
+                </th>
+                <th colspan="8" class="gh gh-res grp-end">
+                  <div class="gh-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span>4. Final Economics & Verdict</span>
+                  </div>
+                </th>
+                <th colspan="3" class="gh gh-risk grp-end">
+                  <div class="gh-badge">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>5. Demand & Risk</span>
+                  </div>
+                </th>
+                <th class="gh gh-act">
+                  <div class="gh-badge">
+                    <span>Actions</span>
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="th-prod text-center" style="min-width:75px;" title="Unique Research ID">Product ID</th>
+                <th class="th-prod text-left" style="min-width:270px;" title="Product title, preview image, and TikTok reference link">Product &amp; TikTok Link</th>
+                <th class="th-prod text-center" style="min-width:110px;" title="Niche / Category">Category</th>
+                <th class="th-prod text-center" style="min-width:80px;" title="Fulfillment Method">Source</th>
+                <th class="th-prod text-center" style="min-width:95px;" title="Supplier / Print Provider">Platform</th>
+                <th class="th-prod grp-end text-left" style="min-width:130px;" title="Product Variant or SKU">Variant</th>
+
+                <th class="th-cost text-right" style="min-width:80px;" title="Base production cost from supplier">Base (£)</th>
+                <th class="th-cost text-right" style="min-width:75px;" title="Print on demand / customization cost">Cust (£)</th>
+                <th class="th-cost text-right" style="min-width:75px;" title="UK shipping / delivery fee">Ship (£)</th>
+                <th class="th-cost grp-end text-right" style="min-width:95px;" title="Total cost to deliver to UK customer (Base + Cust + Ship)">Total Cost</th>
+
+                <th class="th-sell text-right" style="min-width:95px;" title="Listing retail price in TikTok Shop (inclusive of 20% UK VAT)">Sell (inc. VAT)</th>
+                <th class="th-sell text-right" style="min-width:90px;" title="Revenue before VAT (Sell ÷ 1.20)">Net (ex. VAT)</th>
+                <th class="th-sell text-right" style="min-width:85px;" title="Combined TikTok referral fee (5%) + Creator commission (10%) + Refund reserve (4%)">Total Fees</th>
+                <th class="th-sell grp-end text-right" style="min-width:85px;" title="Direct ad cost per sale (leave £0 if 100% affiliate / organic)">Ad Cost (£)</th>
+
+                <th class="th-res text-right" style="min-width:135px;" title="Conservative Net Profit (after 4% refund allowance) / Max Net Profit (if 0% customer returns)">Net Profit <span style="font-size:10px; font-weight:normal; opacity:0.85; display:block;">(Safe / 0% Ref)</span></th>
+                <th class="th-res text-right" style="min-width:95px;" title="Gross Profit purely above supplier costs: Net Selling Price - Total Supplier Cost">Gross Profit</th>
+                <th class="th-res text-right" style="min-width:110px;" title="Final Net Profit Margin percentage after all fees and taxes">Net Margin %</th>
+                <th class="th-res text-right" style="min-width:110px;" title="Product Markup Margin: (Net Price - Total Cost) ÷ Net Price">Cost Margin %</th>
+                <th class="th-res text-right" style="min-width:90px;" title="Minimum selling price (inc. VAT) with exactly £0.00 profit">Break-Even</th>
+                <th class="th-res text-right" style="min-width:95px;" title="Retail price needed to hit target 25% Go margin">Target (Go)</th>
+                <th class="th-res text-right" style="min-width:80px;" title="Estimated monthly sales volume in UK">Units / Mo</th>
+                <th class="th-res grp-end text-center" style="min-width:85px;" title="Automatic viability decision based on target thresholds">Verdict</th>
+
+                <th class="th-risk text-center" style="min-width:85px;" title="Market search and sales velocity trend">Trend</th>
+                <th class="th-risk text-center" style="min-width:80px;" title="Trademark and copyright risk rating">IP Risk</th>
+                <th class="th-risk grp-end text-center" style="min-width:80px;" title="Estimated supplier turnaround &amp; delivery days to UK">Delivery</th>
+
+                <th class="th-act text-center" style="min-width:125px;">Manage</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: Visual Cards -->
+    <div class="view-content" id="view-cards">
+      <div class="cards-layout" id="cards-grid">
+        <!-- Dynamically populated cards -->
+      </div>
+    </div>
+
+    <!-- VIEW 3: Supplier Comparator -->
+    <div class="view-content" id="view-compare">
+      <div id="compare-grid">
+        <!-- Dynamically populated comparison groups -->
+      </div>
+    </div>
+
+    <!-- VIEW 4: Analytics & Simulator -->
+    <div class="view-content" id="view-analytics">
+      <div class="analytics-grid">
+        <!-- Margin Distribution Chart -->
+        <div class="chart-card">
+          <h3>Profit Margin by Platform & Supplier</h3>
+          <p>Average net margins across Printify, Printful, Gelato, and Dropshipping</p>
+          <div class="chart-container">
+            <canvas id="platformMarginChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Verdict Donut Chart -->
+        <div class="chart-card">
+          <h3>Auto Verdict Breakdown</h3>
+          <p>Distribution of Go (≥25%), Test (≥10%), and Skip (&lt;10%)</p>
+          <div class="chart-container">
+            <canvas id="verdictDonutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time Price & Commission Simulator -->
+      <div class="simulator-card">
+        <h3 style="font-size:16px; font-weight:700; margin-bottom:4px;">TikTok Shop Sensitivity Simulator</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">
+          Adjust retail prices and creator commission to observe immediate portfolio profit impact.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+          <div class="sim-slider-row">
+            <label>
+              <span>Global Price Adjustment</span>
+              <b id="sim-price-val" class="font-mono">£0.00</b>
+            </label>
+            <input type="range" id="sim-price-delta" min="-5" max="10" step="0.5" value="0">
+            <span style="font-size:11px; color:var(--text-faint)">Simulate increasing or decreasing selling prices</span>
+          </div>
+
+          <div class="sim-slider-row">
+            <label>
+              <span>Creator Commission Rate</span>
+              <b id="sim-creator-val" class="font-mono">10%</b>
+            </label>
+            <input type="range" id="sim-creator-slider" min="5" max="25" step="1" value="10">
+            <span style="font-size:11px; color:var(--text-faint)">Test affiliate creator commission rates</span>
+          </div>
+
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:14px 18px; display:flex; flex-direction:column; justify-content:center;">
+            <span style="font-size:11.5px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Simulated Portfolio Monthly Profit</span>
+            <b id="sim-total-profit" class="font-mono pos" style="font-size:24px;">£0.00</b>
+            <span style="font-size:11px; color:var(--text-faint)" id="sim-profit-delta">Matches current baseline</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       MODAL: Add / Edit Product
+       ======================================================================== -->
+  <div class="modal-backdrop" id="modal-product" onclick="if(event.target === this) this.classList.remove('open')">
+    <div class="modal-box">
+      <div class="modal-header-bar">
+        <div>
+          <h3 id="modal-product-title" style="font-size:19px; font-weight:800; letter-spacing:-0.01em;">Add Product Research</h3>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">Configure costs, retail price, and platform attributes</p>
+        </div>
+        <button class="btn-icon" id="btn-close-product-modal" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="modal-body-content">
+        <form id="product-form" onsubmit="return false;">
+          <div class="form-split">
+            <!-- Left inputs column -->
+            <div class="form-inputs-col">
+              <div class="form-group-title"><span>📦</span> 1. Product Identity</div>
+              <div class="form-field-grid form-grid-2">
+                <div class="field">
+                  <label>Product ID *</label>
+                  <input type="text" id="inp-id" placeholder="P001" required>
+                </div>
+                <div class="field">
+                  <label>Product Name *</label>
+                  <input type="text" id="inp-name" placeholder="e.g. Ceramic Coffee Mug" required>
+                </div>
+              </div>
+
+              <div class="form-field-grid form-grid-2">
+                <div class="field">
+                  <label>Category</label>
+                  <input type="text" id="inp-cat" placeholder="e.g. Home & Kitchen">
+                </div>
+                <div class="field">
+                  <label>Source Type</label>
+                  <select id="inp-src">
+                    <option value="POD">Print on Demand (POD)</option>
+                    <option value="Dropshipping">Dropshipping</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field-grid form-grid-2">
+                <div class="field">
+                  <label>Platform / Supplier *</label>
+                  <select id="inp-plat">
+                    <option value="Printify">Printify</option>
+                    <option value="Printful">Printful</option>
+                    <option value="Gelato">Gelato</option>
+                    <option value="Prodigi">Prodigi</option>
+                    <option value="Other POD">Other POD</option>
+                    <option value="N/A">N/A (Dropshipping)</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Variant / Spec</label>
+                  <input type="text" id="inp-variant" placeholder="e.g. 11oz White Ceramic">
+                </div>
+              </div>
+
+              <div class="form-field-grid form-grid-2" style="margin-bottom:8px;">
+                <div class="field">
+                  <label>TikTok Reference Link</label>
+                  <input type="url" id="inp-link" placeholder="https://www.tiktok.com/@...">
+                </div>
+                <div class="field">
+                  <label>Product Image Link (URL)</label>
+                  <input type="url" id="inp-image" placeholder="https://... image URL (JPG, PNG, WebP)">
+                </div>
+              </div>
+              <div class="img-input-preview-box" id="img-input-preview-box">
+                <img id="img-input-preview-thumb" src="" alt="Preview" class="img-input-preview-thumb">
+                <div style="flex:1; min-width:0;">
+                  <div style="font-size:12px; font-weight:700; color:var(--good);">✓ Image Link Connected</div>
+                  <div id="img-input-preview-url" style="font-size:11px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
+                </div>
+                <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:11px;" onclick="testPreviewImage()">Full Preview</button>
+              </div>
+
+              <div class="form-group-title"><span>🏷️</span> 2. Supplier Unit Costs (£)</div>
+              <div class="form-field-grid form-grid-3">
+                <div class="field">
+                  <label>Base Price (£) *</label>
+                  <input type="number" step="0.01" id="inp-base" placeholder="0.00" required>
+                </div>
+                <div class="field">
+                  <label>Customization (£)</label>
+                  <input type="number" step="0.01" id="inp-cust" placeholder="0.00">
+                </div>
+                <div class="field">
+                  <label>Shipping (£) *</label>
+                  <input type="number" step="0.01" id="inp-ship" placeholder="0.00" required>
+                </div>
+              </div>
+
+              <div class="form-group-title"><span>💳</span> 3. TikTok Retail & Ad Budget (£)</div>
+              <div class="form-field-grid form-grid-3">
+                <div class="field">
+                  <label>Customer Price (inc. VAT) *</label>
+                  <input type="number" step="0.01" id="inp-sell" placeholder="0.00" required>
+                </div>
+                <div class="field">
+                  <label>Ad Cost / Sale (£)</label>
+                  <input type="number" step="0.01" id="inp-ad" placeholder="0.00">
+                </div>
+                <div class="field">
+                  <label>Est. Monthly Units</label>
+                  <input type="number" id="inp-units" placeholder="300">
+                </div>
+              </div>
+
+              <div class="form-group-title"><span>🛡️</span> 4. Market & Risk Parameters</div>
+              <div class="form-field-grid form-grid-3">
+                <div class="field">
+                  <label>Sales Trend</label>
+                  <select id="inp-trend">
+                    <option value="Rising">Rising</option>
+                    <option value="Stable">Stable</option>
+                    <option value="Falling">Falling</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>IP / Trademark Risk</label>
+                  <select id="inp-ip">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Delivery (Days)</label>
+                  <input type="number" id="inp-days" placeholder="4">
+                </div>
+              </div>
+            </div>
+
+            <!-- Right live breakdown card (sticky on large screens) -->
+            <div class="form-calc-col">
+              <div class="live-calc-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:6px; border-bottom:1px solid var(--border-subtle);">
+                  <span style="font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Live Unit Economics
+                  </span>
+                  <span id="preview-verdict" class="pill pill-skip">Skip</span>
+                </div>
+
+                <div class="calc-line">
+                  <span>Customer Pays (inc. 20% VAT)</span>
+                  <b id="prev-sell" class="font-mono">£0.00</b>
+                </div>
+
+                <div class="calc-line">
+                  <span>Net Price (ex. VAT)</span>
+                  <b id="prev-net" class="font-mono">£0.00</b>
+                </div>
+
+                <div class="calc-line">
+                  <span>Total Supplier Cost</span>
+                  <span id="prev-total-cost" class="font-mono">−£0.00</span>
+                </div>
+
+                <div class="calc-line" style="background: rgba(148, 163, 184, 0.08); padding: 5px 8px; border-radius: 6px;">
+                  <span><b>Gross Profit (Cost Margin)</b></span>
+                  <b id="prev-gross" class="font-mono">£0.00 (0.0%)</b>
+                </div>
+
+                <div class="calc-line">
+                  <span>TikTok Referral Fee (5%)</span>
+                  <span id="prev-fee" class="font-mono">−£0.00</span>
+                </div>
+
+                <div class="calc-line">
+                  <span>Creator Commission (10%)</span>
+                  <span id="prev-creator" class="font-mono">−£0.00</span>
+                </div>
+
+                <div class="calc-line">
+                  <span>Refund Allowance (4%)</span>
+                  <span id="prev-refund" class="font-mono">−£0.00</span>
+                </div>
+
+                <div class="calc-line">
+                  <span>Ad Cost per Sale</span>
+                  <span id="prev-ad" class="font-mono">−£0.00</span>
+                </div>
+
+                <div class="calc-line primary" style="background: var(--bg-subtle); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);">
+                  <div>
+                    <span style="display:block; font-size:13px; font-weight:700;">Net Profit per Unit</span>
+                    <small style="font-size:10.5px; color:var(--text-muted); font-weight:normal;">(Safe after 4% reserve / 0% Ref)</small>
+                  </div>
+                  <span id="prev-profit" class="font-mono pos" style="font-size:17px;">£0.00 / £0.00</span>
+                </div>
+
+                <div class="calc-line primary" style="background: var(--bg-subtle); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);">
+                  <div>
+                    <span style="display:block; font-size:13px; font-weight:700;">Profit Margin %</span>
+                    <small style="font-size:10.5px; color:var(--text-muted); font-weight:normal;">(Safe / 0% Ref)</small>
+                  </div>
+                  <span id="prev-margin" class="font-mono pos" style="font-size:17px;">0.0% / 0.0%</span>
+                </div>
+
+                <div style="background:var(--bg-subtle); padding:12px 14px; border-radius:10px; margin-top:6px; border:1px solid var(--border)">
+                  <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px;">
+                    <span style="color:var(--text-muted)">Break-Even Price:</span>
+                    <b id="prev-be" class="font-mono">£0.00</b>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px;">
+                    <span style="color:var(--text-muted)">Target Price for "Go" (≥25%):</span>
+                    <b id="prev-target" class="font-mono" style="color:var(--accent-light)">£0.00</b>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:12px;">
+                    <span style="color:var(--text-muted)">Est. Monthly Profit:</span>
+                    <b id="prev-monthly" class="font-mono">£0.00</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary" id="btn-cancel-product">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-product">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: Google Sheets & Fee Configuration
+       ======================================================================== -->
+  <div class="modal-backdrop" id="modal-settings" onclick="if(event.target === this) this.classList.remove('open')">
+    <div class="modal-box" style="max-width: 680px; width: min(680px, 94vw);">
+      <div class="modal-header-bar">
+        <div>
+          <h3 style="font-size:18px; font-weight:800;">Google Sheet & Formula Rules</h3>
+          <p style="font-size:12px; color:var(--text-muted)">Link your live sheet & adjust UK deduction rules</p>
+        </div>
+        <button class="btn-icon" id="btn-close-settings-modal">✕</button>
+      </div>
+
+      <div class="modal-body-content">
+        <div style="margin-bottom:20px;">
+          <div class="form-group-title">Google Apps Script Webhook</div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+            Paste the Web App URL deployed from your Google Sheet (from <code>google_apps_script.js</code>):
+          </p>
+          <div class="field">
+            <input type="url" id="setting-webhook-url" placeholder="https://script.google.com/macros/s/.../exec">
+          </div>
+          <div style="display:flex; gap:10px; margin-top:10px;">
+            <button class="btn btn-secondary" id="btn-test-connection">Test Connection</button>
+            <span id="test-connection-status" style="font-size:12px; align-self:center;"></span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="form-group-title">UK Standard Rates & Deductions</div>
+          <div class="form-field-grid">
+            <div class="field">
+              <label>TikTok Referral Fee %</label>
+              <input type="number" step="0.5" id="setting-fee" value="5">
+            </div>
+            <div class="field">
+              <label>Creator Commission %</label>
+              <input type="number" step="0.5" id="setting-creator" value="10">
+            </div>
+          </div>
+          <div class="form-field-grid">
+            <div class="field">
+              <label>Refund Allowance %</label>
+              <input type="number" step="0.5" id="setting-refund" value="4">
+            </div>
+            <div class="field">
+              <label>UK VAT Rate %</label>
+              <input type="number" step="0.5" id="setting-vat" value="20">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group-title">Verdict Thresholds</div>
+          <div class="form-field-grid">
+            <div class="field">
+              <label>Verdict 'GO' if Margin ≥ %</label>
+              <input type="number" step="1" id="setting-go" value="25">
+            </div>
+            <div class="field">
+              <label>Verdict 'TEST' if Margin ≥ %</label>
+              <input type="number" step="1" id="setting-test" value="10">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-bar">
+        <button class="btn btn-secondary" id="btn-cancel-settings">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       Full Product Image Lightbox Modal
+       ======================================================================== -->
+  <div class="lightbox-backdrop" id="modal-image-preview" onclick="if(event.target === this) closeImageModal()">
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+      <div class="lightbox-header">
+        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+          <span class="tag font-mono" id="lightbox-pid" style="font-size:12px; font-weight:700;"></span>
+          <h3 id="lightbox-title" style="font-size:16px; font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:0;"></h3>
+          <span class="tag" id="lightbox-cat" style="font-size:11px;"></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <a id="lightbox-link-btn" href="#" target="_blank" class="btn btn-secondary" style="padding:5px 12px; font-size:12px; text-decoration:none; display:none;">TikTok ↗</a>
+          <button class="btn-icon" id="btn-close-image-modal" onclick="closeImageModal()" title="Close preview (Esc)">✕</button>
+        </div>
+      </div>
+      <div class="lightbox-body">
+        <img id="lightbox-img" src="" alt="Product Preview" class="lightbox-image" style="display:none;">
+        <div id="lightbox-no-img" style="display:none; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:40px; text-align:center;">
+          <span style="font-size:42px; opacity:0.6;">📷</span>
+          <div style="font-weight:700; font-size:15px;">No Preview Image Linked</div>
+          <p style="font-size:13px; color:var(--text-muted); max-width:320px; margin:0;">You can add an image URL in the product editor to see full visual previews.</p>
+          <button type="button" class="btn btn-primary" id="lightbox-add-img-btn" style="margin-top:6px;">Add Image URL</button>
+        </div>
+      </div>
+      <div class="lightbox-footer">
+        <div class="lightbox-stats" id="lightbox-stats">
+          <!-- Filled dynamically with metrics -->
+        </div>
+        <button class="btn btn-secondary" onclick="closeImageModal()" style="padding:6px 14px; font-size:12px;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-popup" id="toast-el">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    <span>Item saved</span>
+  </div>
+
+  <!-- ========================================================================
+       Application Logic
+       ======================================================================== -->
+  <script>
+    const APP_STORAGE = "tkuk_suite_v3";
+    const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyGlY09sVU_qchqUA0AQzC-q9TbXodc4Eitr7AKuTjll-_m1fDnRKKljksusJldnuy35g/exec";
+
+    let AppConfig = {
+      webhookUrl: DEFAULT_WEBHOOK_URL,
+      fee: 5,
+      creator: 10,
+      refund: 4,
+      vat: 20,
+      goThreshold: 25,
+      testThreshold: 10
+    };
+
+    // Preloaded with user's exact dataset from tiktok_shop_uk_research.xlsx
+    let Products = [
+      {
+        id: "P001",
+        name: "Custom Name Mug",
+        cat: "Home & Kitchen",
+        src: "POD",
+        plat: "Printify",
+        variant: "11oz white ceramic",
+        link: "",
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80",
+        base: 4.20,
+        cust: 2.00,
+        ship: 3.10,
+        sell: 14.99,
+        ad: 1.50,
+        units: 300,
+        trend: "Rising",
+        ip: "Low",
+        days: 4
+      },
+      {
+        id: "P001",
+        name: "Custom Name Mug",
+        cat: "Home & Kitchen",
+        src: "POD",
+        plat: "Printful",
+        variant: "11oz white ceramic",
+        link: "",
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80",
+        base: 6.10,
+        cust: 1.50,
+        ship: 3.60,
+        sell: 14.99,
+        ad: 1.50,
+        units: 300,
+        trend: "Rising",
+        ip: "Low",
+        days: 5
+      },
+      {
+        id: "P002",
+        name: "Desk Cable Organiser",
+        cat: "Gadgets",
+        src: "Dropshipping",
+        plat: "N/A",
+        variant: "Set of 6, black",
+        link: "",
+        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
+        base: 1.80,
+        cust: 0.00,
+        ship: 2.40,
+        sell: 9.99,
+        ad: 1.20,
+        units: 500,
+        trend: "Rising",
+        ip: "Low",
+        days: 7
+      }
+    ];
+
+    let currentEditingIndex = -1;
+    let selectedVerdictFilter = "ALL";
+    let chartInstanceMargin = null;
+    let chartInstanceDonut = null;
+
+    /* Theme Management */
+    const themeBtn = document.getElementById("theme-btn");
+    const themeMoon = document.getElementById("theme-moon");
+    const themeSun = document.getElementById("theme-sun");
+
+    function setTheme(t) {
+      document.documentElement.setAttribute("data-theme", t);
+      localStorage.setItem("tkuk_theme_mode", t);
+      if (t === "dark") {
+        themeMoon.style.display = "block";
+        themeSun.style.display = "none";
+      } else {
+        themeMoon.style.display = "none";
+        themeSun.style.display = "block";
+      }
+      if (chartInstanceMargin) updateCharts();
+    }
+
+    const initTheme = localStorage.getItem("tkuk_theme_mode") || "dark";
+    setTheme(initTheme);
+
+    themeBtn.addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme");
+      setTheme(cur === "dark" ? "light" : "dark");
+    });
+
+    /* View Navigation */
+    const viewPills = document.querySelectorAll(".view-pill");
+    const viewSections = {
+      table: document.getElementById("view-table"),
+      cards: document.getElementById("view-cards"),
+      compare: document.getElementById("view-compare"),
+      analytics: document.getElementById("view-analytics")
+    };
+
+    viewPills.forEach(pill => {
+      pill.addEventListener("click", () => {
+        const view = pill.dataset.view;
+        viewPills.forEach(p => p.classList.remove("active"));
+        pill.classList.add("active");
+
+        Object.keys(viewSections).forEach(k => {
+          viewSections[k].classList.toggle("active", k === view);
+        });
+
+        if (view === "analytics") {
+          updateCharts();
+          runSimulation();
+        } else if (view === "table") {
+          setTimeout(syncFixedTableHeader, 50);
+        }
+      });
+    });
+
+    /* Formula Engine */
+    function calcRow(item, overrides = {}) {
+      const p = val => (parseFloat(val) || 0);
+      const vatRate = (overrides.vat != null ? overrides.vat : p(AppConfig.vat)) / 100;
+      const feeRate = (overrides.fee != null ? overrides.fee : p(AppConfig.fee)) / 100;
+      const creatorRate = (overrides.creator != null ? overrides.creator : p(AppConfig.creator)) / 100;
+      const refundRate = (overrides.refund != null ? overrides.refund : p(AppConfig.refund)) / 100;
+
+      const base = p(item.base);
+      const cust = p(item.cust);
+      const ship = p(item.ship);
+      const totalCost = base + cust + ship;
+
+      const deltaPrice = overrides.priceDelta || 0;
+      const sellPrice = Math.max(0, p(item.sell) + deltaPrice);
+      const netPrice = sellPrice > 0 ? (sellPrice / (1 + vatRate)) : 0;
+
+      const totalDeductionsPct = feeRate + creatorRate + refundRate;
+      const feeAmount = netPrice * feeRate;
+      const creatorAmount = netPrice * creatorRate;
+      const refundAmount = netPrice * refundRate;
+      const deductionsTotal = netPrice * totalDeductionsPct;
+
+      // Gross / Cost Margin (Product Only: Net Selling Price - Total Supplier Cost)
+      const grossProfit = (sellPrice > 0 && totalCost > 0) ? (netPrice - totalCost) : 0;
+      const costMargin = netPrice > 0 ? (grossProfit / netPrice) : 0;
+      const costMarkup = totalCost > 0 ? (grossProfit / totalCost) : 0;
+
+      const adCost = p(item.ad);
+      const profit = (sellPrice > 0 && totalCost > 0) ? (netPrice - totalCost - deductionsTotal - adCost) : 0;
+      const margin = netPrice > 0 ? (profit / netPrice) : 0;
+
+      // Zero Refund scenario (pure profit if 0% returns / refund reserve kept)
+      const profitZeroRefund = (sellPrice > 0 && totalCost > 0) ? (profit + refundAmount) : 0;
+      const marginZeroRefund = netPrice > 0 ? (profitZeroRefund / netPrice) : 0;
+
+      // Break-even
+      const beDenom = 1 - totalDeductionsPct;
+      const breakEven = beDenom > 0 ? ((totalCost + adCost) / beDenom * (1 + vatRate)) : 0;
+
+      // Target Go price
+      const goRate = p(AppConfig.goThreshold) / 100;
+      const tgDenom = 1 - totalDeductionsPct - goRate;
+      const targetGo = tgDenom > 0 ? ((totalCost + adCost) / tgDenom * (1 + vatRate)) : 0;
+
+      const units = p(item.units);
+      const monthlyProfit = profit * units;
+      const monthlyProfitZeroRefund = profitZeroRefund * units;
+
+      let verdict = "Skip";
+      if (sellPrice > 0 && totalCost > 0) {
+        if (margin * 100 >= p(AppConfig.goThreshold)) {
+          verdict = "Go";
+        } else if (margin * 100 >= p(AppConfig.testThreshold)) {
+          verdict = "Test";
+        }
+      }
+
+      return {
+        totalCost,
+        sellPrice,
+        netPrice,
+        grossProfit,
+        costMargin,
+        costMarkup,
+        feeAmount,
+        creatorAmount,
+        refundAmount,
+        deductionsTotal,
+        profit,
+        profitZeroRefund,
+        margin,
+        marginZeroRefund,
+        breakEven,
+        targetGo,
+        monthlyProfit,
+        monthlyProfitZeroRefund,
+        verdict
+      };
+    }
+
+    const gbp = val => {
+      const n = parseFloat(val) || 0;
+      return (n < 0 ? "−£" : "£") + Math.abs(n).toFixed(2);
+    };
+
+    const pct = val => ((parseFloat(val) || 0) * 100).toFixed(1) + "%";
+
+    /* Render All Screens */
+    function refreshAll() {
+      const q = document.getElementById("filter-search").value.toLowerCase().trim();
+      const platFilter = document.getElementById("filter-platform").value;
+      const sort = document.getElementById("sort-order").value;
+
+      // Counts for filter chips
+      let countGo = 0, countTest = 0, countSkip = 0;
+      Products.forEach(item => {
+        const c = calcRow(item);
+        if (c.verdict === "Go") countGo++;
+        else if (c.verdict === "Test") countTest++;
+        else countSkip++;
+      });
+      document.getElementById("count-all").textContent = Products.length;
+      document.getElementById("count-go").textContent = countGo;
+      document.getElementById("count-test").textContent = countTest;
+      document.getElementById("count-skip").textContent = countSkip;
+
+      // Filter
+      let items = Products.map((item, index) => ({ item, index, calc: calcRow(item) }));
+      items = items.filter(({ item, calc }) => {
+        if (q) {
+          const m1 = (item.id || "").toLowerCase().includes(q);
+          const m2 = (item.name || "").toLowerCase().includes(q);
+          const m3 = (item.variant || "").toLowerCase().includes(q);
+          if (!m1 && !m2 && !m3) return false;
+        }
+        if (selectedVerdictFilter !== "ALL" && calc.verdict !== selectedVerdictFilter) return false;
+        if (platFilter !== "ALL" && item.plat !== platFilter) return false;
+        return true;
+      });
+
+      // Sort
+      items.sort((a, b) => {
+        if (sort === "margin-desc") return b.calc.margin - a.calc.margin;
+        if (sort === "profit-desc") return b.calc.profit - a.calc.profit;
+        if (sort === "price-asc") return a.calc.totalCost - b.calc.totalCost;
+        if (sort === "id-asc") return (a.item.id || "").localeCompare(b.item.id || "");
+        return 0;
+      });
+
+      // Update KPI
+      updateKPIBanner();
+
+      // Render Tables & Cards
+      renderTable(items);
+      renderCards(items);
+      renderComparison();
+      syncFixedTableHeader();
+    }
+
+    function updateKPIBanner() {
+      const total = Products.length;
+      const calcs = Products.map(p => calcRow(p));
+      const valid = calcs.filter(c => c.totalCost > 0);
+
+      const goCount = calcs.filter(c => c.verdict === "Go").length;
+      const avgMargin = valid.length ? (valid.reduce((acc, c) => acc + c.margin, 0) / valid.length) : 0;
+      const bestMargin = valid.length ? Math.max(...valid.map(c => c.margin)) : 0;
+      const monthlyProfit = calcs.reduce((acc, c) => acc + (c.monthlyProfit > 0 ? c.monthlyProfit : 0), 0);
+      const monthlyProfitZero = calcs.reduce((acc, c) => acc + (c.monthlyProfitZeroRefund > 0 ? c.monthlyProfitZeroRefund : 0), 0);
+      const distinctIds = new Set(Products.map(p => p.id).filter(Boolean)).size;
+
+      document.getElementById("kpi-distinct-count").textContent = distinctIds;
+      document.getElementById("kpi-rows-count").textContent = total;
+      document.getElementById("kpi-go-count").textContent = goCount;
+      document.getElementById("kpi-avg-margin").textContent = pct(avgMargin);
+      document.getElementById("kpi-best-margin-sub").textContent = `Highest: ${pct(bestMargin)}`;
+      document.getElementById("kpi-monthly-profit").innerHTML = `${gbp(monthlyProfit)} <span style="font-size:12px; font-weight:normal; opacity:0.8;">/ ${gbp(monthlyProfitZero)}</span>`;
+    }
+
+    /* Table View Render */
+    function renderTable(list) {
+      const tbody = document.getElementById("table-body");
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="26" style="text-align:center; padding: 48px; color:var(--text-muted)">No matching products found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(({ item, index, calc }) => {
+        const pClass = calc.profit >= 0 ? "pos" : "neg";
+        const vPill = `<span class="pill pill-${calc.verdict.toLowerCase()}"><span class="verdict-dot dot-${calc.verdict.toLowerCase()}"></span>${calc.verdict}</span>`;
+        const trendClass = (item.trend === "Rising") ? "trend-rising" : (item.trend === "Falling") ? "trend-falling" : "trend-stable";
+        const trendIcon = (item.trend === "Rising") ? "▲" : (item.trend === "Falling") ? "▼" : "◆";
+        const riskClass = (item.ip === "High") ? "risk-high" : (item.ip === "Medium") ? "risk-med" : "risk-low";
+        const riskIcon = (item.ip === "High") ? "✕" : (item.ip === "Medium") ? "!" : "✓";
+        const platSlug = (item.plat || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+        return `
+          <tr>
+            <!-- 1. Product & Platform -->
+            <td class="c-prod text-center">
+              <span class="pid-badge font-mono">${item.id || "-"}</span>
+            </td>
+            <td class="c-prod text-left">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div class="prod-thumb-container" onclick="openImageModalByIndex(${index})" title="${item.image ? 'Click to view full preview' : 'No image (click to view/add)'}">
+                  ${item.image ? `
+                    <img src="${item.image}" alt="${(item.name || '').replace(/"/g, '&quot;')}" class="prod-thumb-img" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'prod-thumb-placeholder\\'>📷</div>';">
+                  ` : `
+                    <div class="prod-thumb-placeholder">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                  `}
+                  <div class="prod-thumb-hover-hint">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                  </div>
+                </div>
+                <div style="min-width:0;">
+                  <div class="prod-title" onclick="openImageModalByIndex(${index})" title="Click to view full image preview">${item.name || "Untitled"}</div>
+                  ${item.link ? `
+                    <a href="${item.link}" target="_blank" class="prod-tiktok-badge" title="Open on TikTok Shop">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                      TikTok Shop ↗
+                    </a>
+                  ` : `
+                    <span class="prod-no-link" onclick="editItem(${index})">+ Add TikTok Link</span>
+                  `}
+                </div>
+              </div>
+            </td>
+            <td class="c-prod text-center"><span class="cat-pill">${item.cat || "General"}</span></td>
+            <td class="c-prod text-center"><span class="src-pill ${item.src === 'Dropshipping' ? 'src-drop' : 'src-pod'}">${item.src || "POD"}</span></td>
+            <td class="c-prod text-center"><span class="plat-pill plat-${platSlug}"><b>${item.plat || "-"}</b></span></td>
+            <td class="c-prod grp-end text-left"><span class="variant-text" title="${(item.variant || '').replace(/"/g, '&quot;')}">${item.variant || "-"}</span></td>
+
+            <!-- 2. Supplier Costs -->
+            <td class="c-cost font-mono text-right">${gbp(item.base)}</td>
+            <td class="c-cost font-mono text-right">${gbp(item.cust)}</td>
+            <td class="c-cost font-mono text-right">${gbp(item.ship)}</td>
+            <td class="c-cost grp-end font-mono text-right"><span class="total-cost-pill font-mono">${gbp(calc.totalCost)}</span></td>
+
+            <!-- 3. Retail & Fees -->
+            <td class="c-sell font-mono text-right"><span class="sell-val font-mono">${gbp(item.sell)}</span></td>
+            <td class="c-sell font-mono text-right" style="color:var(--text-muted);">${gbp(calc.netPrice)}</td>
+            <td class="c-sell font-mono text-right" style="color:var(--text-faint);">${gbp(calc.deductionsTotal)}</td>
+            <td class="c-sell grp-end font-mono text-right">${gbp(item.ad)}</td>
+
+            <!-- 4. Final Economics & Verdict -->
+            <td class="c-res font-mono text-right ${pClass}" style="white-space:nowrap;" title="Safe Profit: ${gbp(calc.profit)} (after 4% refund reserve) | Max Profit: ${gbp(calc.profitZeroRefund)} (if 0% customer returns)">
+              <b>${gbp(calc.profit)}</b> <span style="font-size:11px; opacity:0.75; font-weight:normal;">/ ${gbp(calc.profitZeroRefund)}</span>
+            </td>
+            <td class="c-res font-mono text-right ${calc.grossProfit >= 0 ? 'pos' : 'neg'}"><b>${gbp(calc.grossProfit)}</b></td>
+            <td class="c-res font-mono text-right ${pClass}">
+              <div class="margin-meter-cell">
+                <b class="${pClass}">${pct(calc.margin)}</b>
+                <div class="meter-track" title="Net Margin: ${pct(calc.margin)} (Max if 0% refunds: ${pct(calc.marginZeroRefund)})">
+                  <div class="meter-bar" style="width:${Math.max(0, Math.min(100, calc.margin * 200))}%; background:${calc.profit >= 0 ? 'var(--good)' : 'var(--bad)'};"></div>
+                </div>
+              </div>
+            </td>
+            <td class="c-res font-mono text-right ${calc.grossProfit >= 0 ? 'pos' : 'neg'}">
+              <div class="margin-meter-cell">
+                <b class="${calc.grossProfit >= 0 ? 'pos' : 'neg'}">${pct(calc.costMargin)}</b>
+                <div class="meter-track" title="Cost Margin: ${pct(calc.costMargin)}">
+                  <div class="meter-bar" style="width:${Math.max(0, Math.min(100, calc.costMargin * 200))}%; background:${calc.grossProfit >= 0 ? 'var(--good)' : 'var(--bad)'};"></div>
+                </div>
+              </div>
+            </td>
+            <td class="c-res font-mono text-right" style="color:var(--text-muted);">${gbp(calc.breakEven)}</td>
+            <td class="c-res font-mono text-right" style="color:var(--accent-light); font-weight:700;">${gbp(calc.targetGo)}</td>
+            <td class="c-res font-mono text-right">${item.units ? item.units.toLocaleString() : "0"}</td>
+            <td class="c-res grp-end text-center">${vPill}</td>
+
+            <!-- 5. Demand & Risk -->
+            <td class="c-risk text-center"><span class="trend-pill ${trendClass}">${trendIcon} ${item.trend || "Stable"}</span></td>
+            <td class="c-risk text-center"><span class="risk-pill ${riskClass}">${riskIcon} ${item.ip || "Low"}</span></td>
+            <td class="c-risk grp-end text-center"><span class="delivery-pill">${item.days ? item.days + "d" : "-"}</span></td>
+
+            <!-- Actions -->
+            <td class="c-act text-center">
+              <div class="tbl-action-group">
+                <button class="tbl-btn" onclick="duplicateItem(${index})" title="Compare another supplier platform">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy
+                </button>
+                <button class="tbl-btn tbl-btn-edit" onclick="editItem(${index})" title="Edit product details">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Edit
+                </button>
+                <button class="tbl-btn tbl-btn-del" onclick="deleteItem(${index})" title="Delete product">✕</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    /* Cards View Render */
+    function renderCards(list) {
+      const grid = document.getElementById("cards-grid");
+      if (!list.length) {
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding: 48px; color:var(--text-muted)">No matching products found.</p>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(({ item, index, calc }) => {
+        const pClass = calc.profit >= 0 ? "pos" : "neg";
+        const vPill = `<span class="pill pill-${calc.verdict.toLowerCase()}">${calc.verdict}</span>`;
+        
+        const net = calc.netPrice || 1;
+        const wCost = Math.min(100, (calc.totalCost / net) * 100);
+        const wFee = Math.min(100, (calc.feeAmount / net) * 100);
+        const wCreator = Math.min(100, (calc.creatorAmount / net) * 100);
+        const wRef = Math.min(100, (calc.refundAmount / net) * 100);
+        const wAd = Math.min(100, ((parseFloat(item.ad) || 0) / net) * 100);
+        const wProfit = Math.max(0, Math.min(100, (calc.profit / net) * 100));
+
+        return `
+          <div class="prod-card">
+            <div class="prod-card-top" style="align-items:flex-start;">
+              <div style="display:flex; gap:12px; align-items:center; min-width:0;">
+                <div class="prod-thumb-container" style="width:52px; height:52px; min-width:52px; border-radius:10px;" onclick="openImageModalByIndex(${index})" title="Click to view full image">
+                  ${item.image ? `
+                    <img src="${item.image}" alt="${(item.name || '').replace(/"/g, '&quot;')}" class="prod-thumb-img" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'prod-thumb-placeholder\\' style=\\'font-size:22px;\\'>🖼️</span>';">
+                  ` : `
+                    <span class="prod-thumb-placeholder" style="font-size:22px;">📷</span>
+                  `}
+                </div>
+                <div class="prod-card-title" style="min-width:0;">
+                  <h3 style="cursor:pointer;" onclick="openImageModalByIndex(${index})" title="Click to view full image preview">${item.name || "Untitled Product"}</h3>
+                  <div class="prod-card-meta">
+                    <span class="tag font-mono"><b>${item.id || "P000"}</b></span>
+                    <span class="tag">${item.plat || "N/A"}</span>
+                    <span class="tag">${item.src || "POD"}</span>
+                    ${item.variant ? `<span style="font-size:11px; color:var(--text-muted)">${item.variant}</span>` : ""}
+                  </div>
+                </div>
+              </div>
+              ${vPill}
+            </div>
+
+            <div class="metric-hero-box">
+              <div class="metric-hero-item">
+                <span>Net Profit / Unit <small style="font-size:10px; opacity:0.75; font-weight:normal;">(Safe / Max)</small></span>
+                <b class="${pClass} font-mono">${gbp(calc.profit)} <span style="font-size:12px; font-weight:normal; opacity:0.8;">/ ${gbp(calc.profitZeroRefund)}</span></b>
+              </div>
+              <div class="metric-hero-item">
+                <span>Net Margin <small style="font-size:10px; opacity:0.75; font-weight:normal;">(Safe / Max)</small></span>
+                <b class="${pClass} font-mono">${pct(calc.margin)} <span style="font-size:12px; font-weight:normal; opacity:0.8;">/ ${pct(calc.marginZeroRefund)}</span></b>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(148, 163, 184, 0.08); padding:6px 12px; border-radius:8px; font-size:12px; border:1px solid var(--border-subtle);">
+              <span style="color:var(--text-muted); font-weight:600;">Cost Margin (Product Only):</span>
+              <b class="font-mono ${calc.grossProfit >= 0 ? 'pos' : 'neg'}">${pct(calc.costMargin)} (${gbp(calc.grossProfit)})</b>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted)">
+                <span>Net: ${gbp(calc.netPrice)}</span>
+                <span>Retail: ${gbp(item.sell)}</span>
+              </div>
+              <div class="waterfall-bar">
+                <span style="width: ${wCost}%; background: var(--chart-cost)" title="Supplier Cost"></span>
+                <span style="width: ${wFee}%; background: var(--chart-fee)" title="TikTok Fee"></span>
+                <span style="width: ${wCreator}%; background: var(--chart-creator)" title="Creator Commission"></span>
+                <span style="width: ${wRef}%; background: var(--chart-ref)" title="Refunds"></span>
+                <span style="width: ${wAd}%; background: var(--chart-ad)" title="Ads"></span>
+                <span style="width: ${wProfit}%; background: var(--chart-profit)" title="Profit"></span>
+              </div>
+              <div class="waterfall-legend">
+                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-cost)"></span>Cost ${gbp(calc.totalCost)}</div>
+                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-fee)"></span>TT ${gbp(calc.feeAmount)}</div>
+                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-creator)"></span>Creator ${gbp(calc.creatorAmount)}</div>
+                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-ad)"></span>Ads ${gbp(item.ad)}</div>
+                <div class="wf-item"><span class="wf-dot" style="background:var(--chart-profit)"></span>Profit ${gbp(calc.profit)} <span style="font-size:10px; opacity:0.75;">(max ${gbp(calc.profitZeroRefund)})</span></div>
+              </div>
+            </div>
+
+            <div class="card-footer-details">
+              <div>
+                <span>Break-Even</span>
+                <b class="font-mono">${gbp(calc.breakEven)}</b>
+              </div>
+              <div>
+                <span>Target (Go)</span>
+                <b class="font-mono" style="color:var(--accent-light)">${gbp(calc.targetGo)}</b>
+              </div>
+              <div>
+                <span>Monthly Est.</span>
+                <b class="font-mono">${item.units ? `${gbp(calc.monthlyProfit)} <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${gbp(calc.monthlyProfitZeroRefund)}</span>` : "-"}</b>
+              </div>
+            </div>
+
+            <div class="card-bottom-actions">
+              ${item.image ? `<button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="openImageModalByIndex(${index})">👁 Preview</button>` : ""}
+              ${item.link ? `<a href="${item.link}" target="_blank" class="btn btn-secondary" style="padding:4px 10px; font-size:12px; text-decoration:none;">Link ↗</a>` : ""}
+              <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="duplicateItem(${index})">Compare Supplier</button>
+              <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="editItem(${index})">Edit</button>
+              <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px; color:var(--bad);" onclick="deleteItem(${index})">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    /* Platform Comparator Render */
+    function renderComparison() {
+      const container = document.getElementById("compare-grid");
+      const groups = {};
+      Products.forEach((p, idx) => {
+        const id = p.id || "Unassigned";
+        if (!groups[id]) groups[id] = [];
+        groups[id].push({ item: p, index: idx, calc: calcRow(p) });
+      });
+
+      if (!Object.keys(groups).length) {
+        container.innerHTML = `<p style="text-align:center; padding: 48px; color:var(--text-muted)">No products to compare.</p>`;
+        return;
+      }
+
+      container.innerHTML = Object.entries(groups).map(([id, list]) => {
+        const best = list.reduce((prev, curr) => curr.calc.margin > prev.calc.margin ? curr : prev, list[0]);
+        const prodName = list[0].item.name || "Product " + id;
+        const firstItem = list[0].item;
+        const firstIndex = list[0].index;
+
+        return `
+          <div style="background:var(--bg-surface); border:1px solid var(--border); border-radius:16px; padding:22px; margin-bottom:22px; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border)">
+              <div style="display:flex; align-items:center; gap:12px;">
+                ${firstItem.image ? `
+                  <div class="prod-thumb-container" style="width:46px; height:46px; min-width:46px; border-radius:10px;" onclick="openImageModalByIndex(${firstIndex})" title="Click to view full preview">
+                    <img src="${firstItem.image}" alt="${(prodName || '').replace(/"/g, '&quot;')}" class="prod-thumb-img" onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'prod-thumb-placeholder\\'>🖼️</span>';">
+                  </div>
+                ` : ''}
+                <div>
+                  <span class="tag font-mono" style="font-size:13px; font-weight:700;">${id}</span>
+                  <h3 style="font-size:18px; font-weight:800; display:inline-block; margin-left:10px; cursor:pointer;" onclick="openImageModalByIndex(${firstIndex})" title="Click to view full preview">${prodName}</h3>
+                  <span style="font-size:12px; color:var(--text-muted); margin-left:12px;">${list.length} platforms compared</span>
+                </div>
+              </div>
+              <div>
+                <span class="tag" style="background:var(--good-bg); color:var(--good); border-color:var(--good-border); font-size:13px; font-weight:700;">
+                  ★ Top Platform: ${best.item.plat} (${pct(best.calc.margin)} margin)
+                </span>
+              </div>
+            </div>
+
+            <div style="overflow-x:auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Supplier Platform</th>
+                    <th>Variant</th>
+                    <th>Supplier Total</th>
+                    <th>Cost Margin %</th>
+                    <th>Retail (inc. VAT)</th>
+                    <th>Net Profit / Unit <span style="font-size:10px; font-weight:normal; opacity:0.8; display:block;">(Safe / 0% Ref)</span></th>
+                    <th>Net Margin %</th>
+                    <th>Break-Even</th>
+                    <th>Verdict</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${list.map(({ item, index, calc }) => {
+                    const isBest = item.plat === best.item.plat;
+                    const pClass = calc.profit >= 0 ? "pos" : "neg";
+                    return `
+                      <tr style="${isBest ? 'background: rgba(16, 185, 129, 0.05); font-weight: 600;' : ''}">
+                        <td>
+                          <b>${item.plat}</b> ${isBest ? '<span class="tag" style="background:var(--good-bg); color:var(--good); margin-left:6px;">Best Choice</span>' : ''}
+                        </td>
+                        <td>${item.variant || "-"}</td>
+                        <td class="font-mono">${gbp(calc.totalCost)}</td>
+                        <td class="font-mono ${calc.grossProfit >= 0 ? 'pos' : 'neg'}"><b>${pct(calc.costMargin)}</b></td>
+                        <td class="font-mono">${gbp(item.sell)}</td>
+                        <td class="font-mono ${pClass}"><b>${gbp(calc.profit)}</b> <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${gbp(calc.profitZeroRefund)}</span></td>
+                        <td class="font-mono ${pClass}"><b>${pct(calc.margin)}</b></td>
+                        <td class="font-mono">${gbp(calc.breakEven)}</td>
+                        <td><span class="pill pill-${calc.verdict.toLowerCase()}">${calc.verdict}</span></td>
+                        <td>
+                          <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="editItem(${index})">Edit</button>
+                        </td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    /* Analytics Charts (Chart.js) */
+    function updateCharts() {
+      if (typeof Chart === "undefined") return;
+
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const textColor = isDark ? "#94A3B8" : "#64748B";
+      const gridColor = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 0, 0, 0.06)";
+
+      // 1. Platform Margins Bar Chart
+      const platforms = ["Printify", "Printful", "Gelato", "Prodigi", "N/A"];
+      const marginAverages = platforms.map(plat => {
+        const rows = Products.filter(p => p.plat === plat);
+        if (!rows.length) return 0;
+        const sum = rows.reduce((acc, r) => acc + calcRow(r).margin, 0);
+        return ((sum / rows.length) * 100).toFixed(1);
+      });
+
+      const ctxBar = document.getElementById("platformMarginChart");
+      if (ctxBar) {
+        if (chartInstanceMargin) chartInstanceMargin.destroy();
+        chartInstanceMargin = new Chart(ctxBar, {
+          type: "bar",
+          data: {
+            labels: platforms.map(p => p === "N/A" ? "Dropshipping" : p),
+            datasets: [{
+              label: "Average Margin %",
+              data: marginAverages,
+              backgroundColor: ["#0284C7", "#38BDF8", "#10B981", "#8B5CF6", "#F59E0B"],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor }, grid: { display: false } },
+              y: { ticks: { color: textColor, callback: v => v + "%" }, grid: { color: gridColor } }
+            }
+          }
+        });
+      }
+
+      // 2. Verdict Donut Chart
+      let cGo = 0, cTest = 0, cSkip = 0;
+      Products.forEach(p => {
+        const v = calcRow(p).verdict;
+        if (v === "Go") cGo++;
+        else if (v === "Test") cTest++;
+        else cSkip++;
+      });
+
+      const ctxDonut = document.getElementById("verdictDonutChart");
+      if (ctxDonut) {
+        if (chartInstanceDonut) chartInstanceDonut.destroy();
+        chartInstanceDonut = new Chart(ctxDonut, {
+          type: "doughnut",
+          data: {
+            labels: ["Go (≥25%)", "Test (≥10%)", "Skip (<10%)"],
+            datasets: [{
+              data: [cGo, cTest, cSkip],
+              backgroundColor: ["#10B981", "#F59E0B", "#F43F5E"],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "bottom", labels: { color: textColor, font: { size: 12 } } }
+            }
+          }
+        });
+      }
+    }
+
+    /* Profit Sensitivity Simulator */
+    const simPriceSlider = document.getElementById("sim-price-delta");
+    const simCreatorSlider = document.getElementById("sim-creator-slider");
+    const simPriceVal = document.getElementById("sim-price-val");
+    const simCreatorVal = document.getElementById("sim-creator-val");
+    const simTotalProfit = document.getElementById("sim-total-profit");
+    const simProfitDelta = document.getElementById("sim-profit-delta");
+
+    function runSimulation() {
+      const priceDelta = parseFloat(simPriceSlider.value) || 0;
+      const creatorRate = parseFloat(simCreatorSlider.value) || 10;
+
+      simPriceVal.textContent = (priceDelta >= 0 ? "+£" : "−£") + Math.abs(priceDelta).toFixed(2);
+      simCreatorVal.textContent = creatorRate + "%";
+
+      let baseProfit = 0;
+      let simProfit = 0;
+
+      Products.forEach(p => {
+        baseProfit += calcRow(p).monthlyProfit;
+        simProfit += calcRow(p, { priceDelta, creator: creatorRate }).monthlyProfit;
+      });
+
+      simTotalProfit.textContent = gbp(simProfit);
+      const diff = simProfit - baseProfit;
+      if (Math.abs(diff) < 0.01) {
+        simProfitDelta.textContent = "Matches current baseline";
+        simProfitDelta.style.color = "var(--text-faint)";
+      } else {
+        simProfitDelta.textContent = (diff > 0 ? "▲ +" : "▼ −") + gbp(Math.abs(diff)) + " vs baseline";
+        simProfitDelta.style.color = diff > 0 ? "var(--good)" : "var(--bad)";
+      }
+    }
+
+    simPriceSlider.addEventListener("input", runSimulation);
+    simCreatorSlider.addEventListener("input", runSimulation);
+
+    /* Live Calculator Preview in Modal */
+    function updateLiveModalCalc() {
+      const draft = {
+        base: document.getElementById("inp-base").value,
+        cust: document.getElementById("inp-cust").value,
+        ship: document.getElementById("inp-ship").value,
+        sell: document.getElementById("inp-sell").value,
+        ad: document.getElementById("inp-ad").value,
+        units: document.getElementById("inp-units").value
+      };
+
+      const c = calcRow(draft);
+
+      document.getElementById("prev-sell").textContent = gbp(draft.sell);
+      document.getElementById("prev-net").textContent = gbp(c.netPrice);
+      document.getElementById("prev-total-cost").textContent = "−" + gbp(c.totalCost);
+      const grossEl = document.getElementById("prev-gross");
+      if (grossEl) {
+        grossEl.textContent = `${gbp(c.grossProfit)} (${pct(c.costMargin)})`;
+        grossEl.className = "font-mono " + (c.grossProfit >= 0 ? "pos" : "neg");
+      }
+      document.getElementById("prev-fee").textContent = "−" + gbp(c.feeAmount);
+      document.getElementById("prev-creator").textContent = "−" + gbp(c.creatorAmount);
+      document.getElementById("prev-refund").textContent = "−" + gbp(c.refundAmount);
+      document.getElementById("prev-ad").textContent = "−" + gbp(draft.ad);
+      
+      const pEl = document.getElementById("prev-profit");
+      pEl.innerHTML = `<b>${gbp(c.profit)}</b> <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${gbp(c.profitZeroRefund)}</span>`;
+      pEl.className = "font-mono " + (c.profit >= 0 ? "pos" : "neg");
+
+      const mEl = document.getElementById("prev-margin");
+      mEl.innerHTML = `<b>${pct(c.margin)}</b> <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${pct(c.marginZeroRefund)}</span>`;
+      mEl.className = "font-mono " + (c.profit >= 0 ? "pos" : "neg");
+
+      document.getElementById("prev-be").textContent = gbp(c.breakEven);
+      document.getElementById("prev-target").textContent = gbp(c.targetGo);
+      document.getElementById("prev-monthly").innerHTML = `${gbp(c.monthlyProfit)} <span style="font-size:11px; opacity:0.8; font-weight:normal;">/ ${gbp(c.monthlyProfitZeroRefund)}</span>`;
+
+      const vEl = document.getElementById("preview-verdict");
+      vEl.textContent = c.verdict;
+      vEl.className = `pill pill-${c.verdict.toLowerCase()}`;
+    }
+
+    ["inp-base", "inp-cust", "inp-ship", "inp-sell", "inp-ad", "inp-units"].forEach(id => {
+      document.getElementById(id).addEventListener("input", updateLiveModalCalc);
+    });
+
+    /* CRUD Operations */
+    const modalProduct = document.getElementById("modal-product");
+    const btnAddProduct = document.getElementById("btn-add-product");
+    const btnCloseProductModal = document.getElementById("btn-close-product-modal");
+    const btnCancelProduct = document.getElementById("btn-cancel-product");
+    const btnSaveProduct = document.getElementById("btn-save-product");
+
+    function openModalForNew() {
+      currentEditingIndex = -1;
+      document.getElementById("modal-product-title").textContent = "Add Product Research";
+      document.getElementById("product-form").reset();
+
+      const existingNums = Products.map(p => {
+        const m = (p.id || "").match(/P(\d+)/);
+        return m ? parseInt(m[1]) : 0;
+      });
+      const nextNum = existingNums.length ? Math.max(...existingNums) + 1 : 1;
+      document.getElementById("inp-id").value = "P" + String(nextNum).padStart(3, "0");
+      document.getElementById("inp-image").value = "";
+      updateModalImagePreview();
+
+      updateLiveModalCalc();
+      modalProduct.classList.add("open");
+    }
+
+    function editItem(index) {
+      currentEditingIndex = index;
+      const p = Products[index];
+      document.getElementById("modal-product-title").textContent = `Edit Product (${p.id || "Row"})`;
+
+      document.getElementById("inp-id").value = p.id || "";
+      document.getElementById("inp-name").value = p.name || "";
+      document.getElementById("inp-cat").value = p.cat || "";
+      document.getElementById("inp-src").value = p.src || "POD";
+      document.getElementById("inp-plat").value = p.plat || "Printify";
+      document.getElementById("inp-variant").value = p.variant || "";
+      document.getElementById("inp-link").value = p.link || "";
+      document.getElementById("inp-image").value = p.image || "";
+      updateModalImagePreview();
+
+      document.getElementById("inp-base").value = p.base != null ? p.base : "";
+      document.getElementById("inp-cust").value = p.cust != null ? p.cust : "";
+      document.getElementById("inp-ship").value = p.ship != null ? p.ship : "";
+      document.getElementById("inp-sell").value = p.sell != null ? p.sell : "";
+      document.getElementById("inp-ad").value = p.ad != null ? p.ad : "";
+      document.getElementById("inp-units").value = p.units != null ? p.units : "";
+
+      document.getElementById("inp-trend").value = p.trend || "Rising";
+      document.getElementById("inp-ip").value = p.ip || "Low";
+      document.getElementById("inp-days").value = p.days != null ? p.days : "";
+
+      updateLiveModalCalc();
+      modalProduct.classList.add("open");
+    }
+
+    function duplicateItem(index) {
+      const src = Products[index];
+      const copy = { ...src, plat: src.plat === "Printify" ? "Printful" : "Printify" };
+      Products.splice(index + 1, 0, copy);
+      persistData();
+      refreshAll();
+      showToast(`Duplicated ${src.id} to compare suppliers!`);
+      syncToGoogleSheet(copy, "add");
+    }
+
+    function deleteItem(index) {
+      const itemToDelete = Products[index];
+      if (!itemToDelete) return;
+      const label = itemToDelete.id ? `${itemToDelete.id} (${itemToDelete.name || "item"})` : (itemToDelete.name || "this item");
+      if (confirm(`Delete ${label} from research and Google Sheet?`)) {
+        Products.splice(index, 1);
+        persistData();
+        refreshAll();
+        showToast("Product row removed.");
+        syncToGoogleSheet(itemToDelete, "delete");
+      }
+    }
+
+    btnAddProduct.addEventListener("click", openModalForNew);
+    btnCloseProductModal.addEventListener("click", () => modalProduct.classList.remove("open"));
+    btnCancelProduct.addEventListener("click", () => modalProduct.classList.remove("open"));
+
+    btnSaveProduct.addEventListener("click", () => {
+      const id = document.getElementById("inp-id").value.trim();
+      const name = document.getElementById("inp-name").value.trim();
+      if (!id || !name) {
+        alert("Please specify a Product ID and Product Name.");
+        return;
+      }
+
+      const item = {
+        id,
+        name,
+        cat: document.getElementById("inp-cat").value.trim(),
+        src: document.getElementById("inp-src").value,
+        plat: document.getElementById("inp-plat").value,
+        variant: document.getElementById("inp-variant").value.trim(),
+        link: document.getElementById("inp-link").value.trim(),
+        image: document.getElementById("inp-image").value.trim(),
+        base: parseFloat(document.getElementById("inp-base").value) || 0,
+        cust: parseFloat(document.getElementById("inp-cust").value) || 0,
+        ship: parseFloat(document.getElementById("inp-ship").value) || 0,
+        sell: parseFloat(document.getElementById("inp-sell").value) || 0,
+        ad: parseFloat(document.getElementById("inp-ad").value) || 0,
+        units: parseInt(document.getElementById("inp-units").value) || 0,
+        trend: document.getElementById("inp-trend").value,
+        ip: document.getElementById("inp-ip").value,
+        days: parseInt(document.getElementById("inp-days").value) || 0
+      };
+
+      if (currentEditingIndex >= 0) {
+        Products[currentEditingIndex] = item;
+        showToast("Product updated!");
+        syncToGoogleSheet(item, "edit");
+      } else {
+        Products.push(item);
+        showToast("Product saved to research!");
+        syncToGoogleSheet(item, "add");
+      }
+
+      persistData();
+      modalProduct.classList.remove("open");
+      refreshAll();
+    });
+
+    /* Image Lightbox Modal Logic */
+    function openImageModalByIndex(index) {
+      const item = Products[index];
+      if (!item) return;
+      openImageModal(item.image, item.name, item.id, item.cat, item.link, index);
+    }
+
+    function openImageModal(url, name, id, cat, link, index) {
+      const modal = document.getElementById("modal-image-preview");
+      const imgEl = document.getElementById("lightbox-img");
+      const noImgEl = document.getElementById("lightbox-no-img");
+      const titleEl = document.getElementById("lightbox-title");
+      const pidEl = document.getElementById("lightbox-pid");
+      const catEl = document.getElementById("lightbox-cat");
+      const linkBtn = document.getElementById("lightbox-link-btn");
+      const statsEl = document.getElementById("lightbox-stats");
+
+      titleEl.textContent = name || "Product Preview";
+      pidEl.textContent = id || "P---";
+      catEl.textContent = cat || "General";
+
+      if (link) {
+        linkBtn.href = link;
+        linkBtn.style.display = "inline-flex";
+      } else {
+        linkBtn.style.display = "none";
+      }
+
+      if (index != null && Products[index]) {
+        const item = Products[index];
+        const c = calcRow(item);
+        statsEl.innerHTML = `
+          <div><span>Supplier:</span> <b>${item.plat || 'N/A'}</b></div>
+          <div><span>Retail (inc VAT):</span> <b>${gbp(item.sell)}</b></div>
+          <div><span>Net Profit:</span> <b class="${c.profit >= 0 ? 'pos' : 'neg'}">${gbp(c.profit)} / ${gbp(c.profitZeroRefund)}</b></div>
+          <div><span>Net Margin:</span> <b class="${c.profit >= 0 ? 'pos' : 'neg'}">${pct(c.margin)}</b></div>
+          <div><span>Verdict:</span> <span class="pill pill-${c.verdict.toLowerCase()}">${c.verdict}</span></div>
+        `;
+        statsEl.style.display = "flex";
+      } else {
+        statsEl.style.display = "none";
+      }
+
+      if (url) {
+        imgEl.src = url;
+        imgEl.style.display = "block";
+        noImgEl.style.display = "none";
+        imgEl.onerror = () => {
+          imgEl.style.display = "none";
+          noImgEl.style.display = "flex";
+        };
+      } else {
+        imgEl.style.display = "none";
+        noImgEl.style.display = "flex";
+        if (index != null) {
+          const addBtn = document.getElementById("lightbox-add-img-btn");
+          addBtn.onclick = () => {
+            closeImageModal();
+            editItem(index);
+          };
+          addBtn.style.display = "inline-flex";
+        } else {
+          document.getElementById("lightbox-add-img-btn").style.display = "none";
+        }
+      }
+
+      modal.classList.add("open");
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById("modal-image-preview");
+      if (modal) modal.classList.remove("open");
+    }
+
+    function updateModalImagePreview() {
+      const url = document.getElementById("inp-image").value.trim();
+      const box = document.getElementById("img-input-preview-box");
+      const thumb = document.getElementById("img-input-preview-thumb");
+      const urlEl = document.getElementById("img-input-preview-url");
+      if (url) {
+        thumb.src = url;
+        thumb.onerror = () => {
+          box.classList.remove("show");
+        };
+        thumb.onload = () => {
+          box.classList.add("show");
+        };
+        urlEl.textContent = url;
+        box.classList.add("show");
+      } else {
+        box.classList.remove("show");
+      }
+    }
+
+    function testPreviewImage() {
+      const url = document.getElementById("inp-image").value.trim();
+      const name = document.getElementById("inp-name").value.trim() || "Preview Product";
+      const id = document.getElementById("inp-id").value.trim() || "P---";
+      const cat = document.getElementById("inp-cat").value.trim() || "General";
+      const link = document.getElementById("inp-link").value.trim();
+      openImageModal(url, name, id, cat, link);
+    }
+
+    document.getElementById("inp-image").addEventListener("input", updateModalImagePreview);
+
+    /* Filter Listeners */
+    document.getElementById("filter-search").addEventListener("input", refreshAll);
+    document.getElementById("filter-platform").addEventListener("change", refreshAll);
+    document.getElementById("sort-order").addEventListener("change", refreshAll);
+
+    // Quick filter chips
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        selectedVerdictFilter = chip.dataset.verdict;
+        refreshAll();
+      });
+    });
+
+    // Keyboard shortcuts ('/' to search, 'Escape' to close modals)
+    window.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        closeImageModal();
+        modalProduct.classList.remove("open");
+        modalSettings.classList.remove("open");
+      }
+      if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+        e.preventDefault();
+        document.getElementById("filter-search").focus();
+      }
+    });
+
+    /* Export to CSV */
+    document.getElementById("btn-export-csv").addEventListener("click", () => {
+      const headers = [
+        "Product ID","Product Name","Category","Source","Platform","Variant","Image Link","Base (£)",
+        "Custom (£)","Shipping (£)","Total Cost (£)","Gross Profit (£)","Cost Margin %","Selling Price (£)","Net Price (£)",
+        "TikTok Fee (£)","Creator Fee (£)","Refunds (£)","Ad Cost (£)","Net Profit (£)",
+        "Net Margin %","Break-Even (£)","Target Go (£)","Monthly Units","Monthly Profit (£)","Verdict"
+      ];
+
+      const rows = Products.map(p => {
+        const c = calcRow(p);
+        return [
+          p.id, `"${(p.name||"").replace(/"/g, '""')}"`, `"${p.cat||""}"`, p.src, p.plat,
+          `"${p.variant||""}"`, `"${(p.image||"").replace(/"/g, '""')}"`, p.base, p.cust, p.ship, c.totalCost.toFixed(2),
+          c.grossProfit.toFixed(2), (c.costMargin * 100).toFixed(1) + "%",
+          p.sell, c.netPrice.toFixed(2), c.feeAmount.toFixed(2), c.creatorAmount.toFixed(2),
+          c.refundAmount.toFixed(2), p.ad, c.profit.toFixed(2), (c.margin * 100).toFixed(1) + "%",
+          c.breakEven.toFixed(2), c.targetGo.toFixed(2), p.units, c.monthlyProfit.toFixed(2), c.verdict
+        ].join(",");
+      });
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `tiktok_shop_research_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Exported to CSV!");
+    });
+
+    /* Settings & Google Sheet Integration */
+    const modalSettings = document.getElementById("modal-settings");
+    const btnSyncSettings = document.getElementById("btn-sync-settings");
+    const btnOpenSettings = document.getElementById("btn-open-settings");
+    const btnCloseSettingsModal = document.getElementById("btn-close-settings-modal");
+    const btnCancelSettings = document.getElementById("btn-cancel-settings");
+    const btnSaveSettings = document.getElementById("btn-save-settings");
+    const btnTestConnection = document.getElementById("btn-test-connection");
+    const btnSyncNow = document.getElementById("btn-sync-now");
+
+    function openSettings() {
+      document.getElementById("setting-webhook-url").value = AppConfig.webhookUrl || "";
+      document.getElementById("setting-fee").value = AppConfig.fee;
+      document.getElementById("setting-creator").value = AppConfig.creator;
+      document.getElementById("setting-refund").value = AppConfig.refund;
+      document.getElementById("setting-vat").value = AppConfig.vat;
+      document.getElementById("setting-go").value = AppConfig.goThreshold;
+      document.getElementById("setting-test").value = AppConfig.testThreshold;
+      document.getElementById("test-connection-status").textContent = "";
+      modalSettings.classList.add("open");
+    }
+
+    btnSyncSettings.addEventListener("click", openSettings);
+    btnOpenSettings.addEventListener("click", openSettings);
+    btnCloseSettingsModal.addEventListener("click", () => modalSettings.classList.remove("open"));
+    btnCancelSettings.addEventListener("click", () => modalSettings.classList.remove("open"));
+
+    btnSaveSettings.addEventListener("click", () => {
+      AppConfig.webhookUrl = document.getElementById("setting-webhook-url").value.trim();
+      AppConfig.fee = parseFloat(document.getElementById("setting-fee").value) || 5;
+      AppConfig.creator = parseFloat(document.getElementById("setting-creator").value) || 10;
+      AppConfig.refund = parseFloat(document.getElementById("setting-refund").value) || 4;
+      AppConfig.vat = parseFloat(document.getElementById("setting-vat").value) || 20;
+      AppConfig.goThreshold = parseFloat(document.getElementById("setting-go").value) || 25;
+      AppConfig.testThreshold = parseFloat(document.getElementById("setting-test").value) || 10;
+
+      updateSyncBadge();
+      persistData();
+      modalSettings.classList.remove("open");
+      refreshAll();
+      showToast("Settings applied!");
+    });
+
+    btnTestConnection.addEventListener("click", async () => {
+      const url = document.getElementById("setting-webhook-url").value.trim();
+      const statusEl = document.getElementById("test-connection-status");
+      if (!url) {
+        statusEl.textContent = "Please enter Webhook URL first.";
+        statusEl.style.color = "var(--bad)";
+        return;
+      }
+      statusEl.textContent = "Testing...";
+      statusEl.style.color = "var(--accent-light)";
+
+      try {
+        const res = await fetch(url + (url.includes("?") ? "&" : "?") + "action=ping");
+        const json = await res.json();
+        if (json.status === "ok") {
+          statusEl.textContent = "✓ Connected to Google Sheet!";
+          statusEl.style.color = "var(--good)";
+        }
+      } catch (err) {
+        statusEl.textContent = "Connection failed. Check Webhook permissions.";
+        statusEl.style.color = "var(--bad)";
+      }
+    });
+
+    function updateSyncBadge() {
+      const dot = document.getElementById("sync-dot");
+      const label = document.getElementById("sync-label");
+      if (AppConfig.webhookUrl) {
+        dot.className = "sync-indicator connected";
+        label.textContent = "Google Sheet Live";
+      } else {
+        dot.className = "sync-indicator";
+        label.textContent = "Local Mode";
+      }
+    }
+
+    async function syncToGoogleSheet(item, action) {
+      if (!AppConfig.webhookUrl) return;
+      try {
+        let act = "addRow";
+        if (action === "edit") act = "updateRow";
+        else if (action === "delete") act = "deleteRow";
+
+        const res = await fetch(AppConfig.webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ action: act, product: item })
+        });
+        const data = await res.json().catch(() => null);
+        if (action === "delete" && data && data.status === "ok") {
+          showToast("Row deleted from Google Sheet!");
+        }
+      } catch (e) {
+        console.warn("Sync failed:", e);
+      }
+    }
+
+    btnSyncNow.addEventListener("click", async () => {
+      if (!AppConfig.webhookUrl) {
+        openSettings();
+        return;
+      }
+      btnSyncNow.disabled = true;
+      btnSyncNow.textContent = "Syncing...";
+      try {
+        const res = await fetch(AppConfig.webhookUrl + (AppConfig.webhookUrl.includes("?") ? "&" : "?") + "action=getAll");
+        const data = await res.json();
+        if (data.products && Array.isArray(data.products)) {
+          Products = data.products;
+          persistData();
+          refreshAll();
+          showToast("Synced with Google Sheet!");
+        }
+      } catch (e) {
+        alert("Failed to sync. Check Google Apps Script Webhook URL.");
+      } finally {
+        btnSyncNow.disabled = false;
+        btnSyncNow.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Sync`;
+      }
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById("toast-el");
+      t.querySelector("span").textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3000);
+    }
+
+    /* Persistence */
+    function persistData() {
+      try {
+        localStorage.setItem(APP_STORAGE, JSON.stringify({ AppConfig, Products }));
+      } catch (e) {}
+    }
+
+    function loadPersistedData() {
+      try {
+        const d = localStorage.getItem(APP_STORAGE);
+        if (d) {
+          const parsed = JSON.parse(d);
+          if (parsed.AppConfig) {
+            AppConfig = { ...AppConfig, ...parsed.AppConfig };
+            // Ensure live Google Sheet Webhook URL is active even if local storage had empty URL
+            if (!AppConfig.webhookUrl) {
+              AppConfig.webhookUrl = DEFAULT_WEBHOOK_URL;
+            }
+          }
+          if (parsed.Products && parsed.Products.length) {
+            Products = parsed.Products.map(p => {
+              if (p.image === undefined) {
+                if (p.id === "P001") p.image = "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80";
+                else if (p.id === "P002") p.image = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80";
+                else p.image = "";
+              }
+              return p;
+            });
+          }
+        }
+      } catch (e) {}
+    }
+
+    /* Fixed Table Header on Window Scroll */
+    function syncFixedTableHeader() {
+      const viewTable = document.getElementById("view-table");
+      const tableWrapper = document.querySelector("#view-table .table-wrapper");
+      const thead = document.querySelector("#view-table thead");
+      if (!tableWrapper || !thead) return;
+
+      if (!viewTable || !viewTable.classList.contains("active")) {
+        thead.style.transform = "translateY(0)";
+        thead.classList.remove("is-fixed");
+        return;
+      }
+
+      const appHeader = document.querySelector("header");
+      const appHeaderHeight = appHeader ? appHeader.offsetHeight : 65;
+      const rect = tableWrapper.getBoundingClientRect();
+      const theadHeight = thead.offsetHeight;
+
+      // When the top of the table reaches the sticky app header
+      if (rect.top < appHeaderHeight && rect.bottom > (appHeaderHeight + theadHeight + 40)) {
+        const offsetY = appHeaderHeight - rect.top;
+        thead.style.transform = `translateY(${offsetY}px)`;
+        thead.classList.add("is-fixed");
+      } else {
+        thead.style.transform = "translateY(0)";
+        thead.classList.remove("is-fixed");
+      }
+    }
+
+    window.addEventListener("scroll", syncFixedTableHeader, { passive: true });
+    window.addEventListener("resize", syncFixedTableHeader, { passive: true });
+
+    /* Auto-Sync from Google Sheet on Launch */
+    async function autoFetchFromSheet() {
+      if (!AppConfig.webhookUrl) return;
+      try {
+        const res = await fetch(AppConfig.webhookUrl + (AppConfig.webhookUrl.includes("?") ? "&" : "?") + "action=getAll");
+        const data = await res.json();
+        if (data && data.products && Array.isArray(data.products) && data.products.length > 0) {
+          Products = data.products;
+          persistData();
+          refreshAll();
+        }
+      } catch (err) {
+        // Fallback silently to preloaded data if offline
+      }
+    }
+
+    /* Init */
+    loadPersistedData();
+    updateSyncBadge();
+    refreshAll();
+    autoFetchFromSheet();
+  </script>
+</body>
+</html>
